@@ -1,26 +1,22 @@
 package com.snoozingturtles.auctioz.services.impl;
 
 import com.snoozingturtles.auctioz.dto.UserDto;
+import com.snoozingturtles.auctioz.exceptions.EntityNotFoundException;
 import com.snoozingturtles.auctioz.models.User;
 import com.snoozingturtles.auctioz.repositories.UserRepo;
 import com.snoozingturtles.auctioz.services.UserService;
 import com.snoozingturtles.auctioz.utils.UserUtils;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final ModelMapper modelMapper;
-    private final UserUtils userUtils;
-
-    public UserServiceImpl(UserRepo userRepo, ModelMapper modelMapper, UserUtils userUtils) {
-        this.userRepo = userRepo;
-        this.modelMapper = modelMapper;
-        this.userUtils = userUtils;
-    }
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -31,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(String userId, UserDto userDto) {
-        User user = modelMapper.map(userUtils.getUserById(userId), User.class);
+        User user = modelMapper.map(getUserById(userId), User.class);
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         User savedUser = userRepo.save(user);
@@ -40,17 +36,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(String userId) {
-        return userUtils.getUserById(userId);
+        User user = userRepo.findById(userId).orElseThrow(() ->
+                new EntityNotFoundException("No user found with given id!"));
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        return userUtils.getAllUsers();
+        return userRepo.findAll().stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .toList();
     }
 
     @Override
     public void deleteUser(String userId) {
-        User user = modelMapper.map(userUtils.getUserById(userId), User.class);
+        User user = modelMapper.map(getUserById(userId), User.class);
         userRepo.delete(user);
     }
 }

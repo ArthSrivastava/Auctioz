@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity<ApiResponse> createUser(@RequestBody UserDto userDto) {
         UserDto user = userService.createUser(userDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{userId}")
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}")
                 .buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(
                 ApiResponse.builder()

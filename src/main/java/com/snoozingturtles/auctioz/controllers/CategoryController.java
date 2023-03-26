@@ -19,7 +19,7 @@ public class CategoryController {
     @PostMapping("/")
     public ResponseEntity<ApiResponse> createCategory(@RequestBody CategoryDto categoryDto) {
         CategoryDto category = categoryService.createCategory(categoryDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{categoryId}")
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{categoryId}")
                 .buildAndExpand(category.getId()).toUri();
         return ResponseEntity.created(uri).body(
                 ApiResponse.builder()

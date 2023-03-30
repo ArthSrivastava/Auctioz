@@ -12,7 +12,7 @@ public class ProductDto {
     private String description;
     @JsonIgnore
     private String imageName;
-
+    private boolean isSoldOut;
     //Updated when bidding details are entered
     @JsonIgnore
     private String biddingId;

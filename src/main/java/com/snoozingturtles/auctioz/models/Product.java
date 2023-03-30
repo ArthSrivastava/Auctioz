@@ -18,6 +18,7 @@ public class Product {
     private String name;
     private String description;
     private String imageName;
+    private boolean isSoldOut;
     private String biddingId;
     private String categoryId;
     private String sellerId;

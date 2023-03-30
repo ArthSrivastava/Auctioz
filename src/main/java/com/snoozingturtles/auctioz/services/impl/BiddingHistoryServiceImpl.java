@@ -9,8 +9,6 @@ import com.snoozingturtles.auctioz.models.BiddingHistory;
 import com.snoozingturtles.auctioz.repositories.BiddingHistoryRepo;
 import com.snoozingturtles.auctioz.repositories.BiddingRepo;
 import com.snoozingturtles.auctioz.services.BiddingHistoryService;
-import com.snoozingturtles.auctioz.services.BiddingService;
-import com.snoozingturtles.auctioz.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

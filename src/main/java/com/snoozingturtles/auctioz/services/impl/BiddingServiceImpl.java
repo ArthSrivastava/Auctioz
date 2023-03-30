@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BiddingServiceImpl implements BiddingService {
@@ -41,6 +43,14 @@ public class BiddingServiceImpl implements BiddingService {
                         .orElseThrow(() -> new EntityNotFoundException("No such bidding found!")),
                 BiddingDto.class
         );
+    }
+
+    @Override
+    public List<BiddingDto> getAllBiddings() {
+        return biddingRepo.findAll()
+                .stream()
+                .map(bidding -> modelMapper.map(bidding, BiddingDto.class))
+                .toList();
     }
 
     @Override

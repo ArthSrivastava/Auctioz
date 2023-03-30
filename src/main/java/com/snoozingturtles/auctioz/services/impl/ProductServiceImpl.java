@@ -19,7 +19,6 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepo productRepo;
     private final ModelMapper modelMapper;
-    private final UserService userService;
     @Override
     public ProductDto createProduct(String sellerId, ProductDto productDto) {
         productDto.setSellerId(sellerId);
@@ -33,12 +32,20 @@ public class ProductServiceImpl implements ProductService {
         productById.setName(productDto.getName());
         productById.setDescription(productDto.getDescription());
         productById.setCategoryId(productDto.getCategoryId());
+        productById.setSoldOut(productDto.isSoldOut());
         productRepo.save(modelMapper.map(productById, Product.class));
     }
 
     @Override
     public ProductDto getProductById(String productId, String sellerId) {
         Product product = productRepo.findByIdAndSellerId(productId, sellerId)
+                .orElseThrow(() -> new EntityNotFoundException("No such product found!"));
+        return modelMapper.map(product, ProductDto.class);
+    }
+
+    @Override
+    public ProductDto getProductById(String productId) {
+        Product product = productRepo.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException("No such product found!"));
         return modelMapper.map(product, ProductDto.class);
     }

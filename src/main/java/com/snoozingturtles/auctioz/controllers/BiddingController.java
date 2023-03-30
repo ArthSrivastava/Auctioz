@@ -34,7 +34,7 @@ public class BiddingController {
     }
 
     @PutMapping("/{sellerId}/products/{productId}/biddings")
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable String sellerId,
+    public ResponseEntity<ApiResponse> updateBidding(@PathVariable String sellerId,
                                                      @PathVariable String productId,
                                                      @RequestBody BiddingDto biddingDto) {
         biddingService.updateBidding(productId, sellerId, biddingDto);

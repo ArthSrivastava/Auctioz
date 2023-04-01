@@ -1,8 +1,9 @@
 package com.snoozingturtles.auctioz.controllers;
 
-import com.snoozingturtles.auctioz.dto.OrderDto;
+import com.razorpay.RazorpayException;
+import com.snoozingturtles.auctioz.dto.MyOrderDto;
 import com.snoozingturtles.auctioz.payloads.ApiResponse;
-import com.snoozingturtles.auctioz.services.OrderService;
+import com.snoozingturtles.auctioz.services.MyOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +14,26 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
-public class OrderController {
-    private final OrderService orderService;
+public class MyOrderController {
+    private final MyOrderService myOrderService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createOrder(@RequestBody OrderDto orderDto) {
-        OrderDto order = orderService.createOrder(orderDto);
+    public ResponseEntity<ApiResponse> createOrder(@RequestBody MyOrderDto myOrderDto) throws RazorpayException {
+        MyOrderDto order = myOrderService.createOrder(myOrderDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{orderId}")
                 .buildAndExpand(order.getId()).toUri();
         return ResponseEntity.created(uri).body(
+                ApiResponse.builder()
+                        .message("Order created successfully!")
+                        .success(true)
+                        .build()
+        );
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse> updateOrder(@RequestBody MyOrderDto myOrderDto) {
+        myOrderService.updatePaymentSuccess(myOrderDto);
+        return ResponseEntity.ok(
                 ApiResponse.builder()
                         .message("Order placed successfully!")
                         .success(true)
@@ -30,13 +42,13 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDto> getOrderById(@PathVariable String orderId) {
-        return ResponseEntity.ok(orderService.getOrderById(orderId));
+    public ResponseEntity<MyOrderDto> getOrderById(@PathVariable String orderId) {
+        return ResponseEntity.ok(myOrderService.getOrderById(orderId));
     }
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<ApiResponse> deleteOrder(@PathVariable String orderId) {
-        orderService.deleteOrder(orderId);
+        myOrderService.deleteOrder(orderId);
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .message("Order deleted successfully")

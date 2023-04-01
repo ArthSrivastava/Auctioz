@@ -14,10 +14,14 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class MyOrder {
     @Id
     private String id;
     private String userId;
     private String productId;
+    private String razorpayOrderId;
+    private long amount;
+    private String status;
+    private String paymentId;
     private LocalDateTime timestamp;
 }

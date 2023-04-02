@@ -5,7 +5,7 @@ module.exports = withMT({
   theme: {
     extend: {
       colors: {
-        'limeShade': '#4caf50'
+        'limeShade': 'rgb(7,191,103)'
       }
     },
     

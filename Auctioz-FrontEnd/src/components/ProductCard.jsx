@@ -9,19 +9,17 @@ import React from 'react'
 
 const ProductCard = () => {
   return (
-    <Card className="w-96 text-white border-2 border-limeShade" color="transparent">
-    <CardHeader color="blue" className="relative h-56 bg-cover">
-      <img src="./src/assets/courage.jpg" className="bg-cover" />
-    </CardHeader>
-    <CardBody className="text-center">
-    <Typography variant="h2" className="mb-2">
+    <Card className="w-96 text-white border-2 border-transparent my-2 bg-[#212121] rounded-lg" >
+    <CardBody className="" >
+      <img src="./src/assets/courage.jpg" className="mb-2 "/>
+    <Typography variant="h3" className="mb-2">
         iPhone 14 Pro Max
       </Typography>
       <Typography variant="h6">
         The flagship phone by apple
       </Typography>
     </CardBody>
-    <CardFooter className="flex items-center justify-between py-3">
+    <CardFooter className="flex bg-[#080808] items-center justify-between py-3 rounded-lg">
       <Typography variant="medium" className="text-md font-bold">Starting Price</Typography>
       <Typography variant="medium" className="text-md font-bold">200$</Typography>
     </CardFooter>

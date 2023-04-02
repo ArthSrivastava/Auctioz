@@ -3,10 +3,18 @@ import Base from '../components/Base'
 import ProductCard from '../components/ProductCard'
 
 const Home = () => {
+
   return (
     <Base>
-      <h1 className="text-white">Hello world</h1>
-      <ProductCard />
+      <div className='p-10 grid grid-cols-4 gap-4'>
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </div>
     </Base>
   )
 }

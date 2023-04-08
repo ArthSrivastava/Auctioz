@@ -17,7 +17,7 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<ApiResponse> createUser(@RequestBody UserDto userDto) {
         UserDto user = userService.createUser(userDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}")
@@ -43,7 +43,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<ApiResponse> updateUser(@PathVariable String userId,
                                                   @RequestBody UserDto userDto) {
-        UserDto updatedUserDto = userService.updateUser(userId, userDto);
+        userService.updateUser(userId, userDto);
         return ResponseEntity.ok(
                 ApiResponse.builder()
                         .message("User updated successfully!")

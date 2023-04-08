@@ -19,8 +19,7 @@ public class User {
     private String id;
     private String name;
     private String email;
+    private String password;
     private String addressId;
-    private List<String> roleId;
-    private String accessToken;
-    private String refreshToken;
+    private List<Role> roleId;
 }

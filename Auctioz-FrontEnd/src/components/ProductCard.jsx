@@ -20,8 +20,8 @@ const ProductCard = () => {
       </Typography>
     </CardBody>
     <CardFooter className="flex bg-[#080808] items-center justify-between py-3 rounded-lg">
-      <Typography variant="medium" className="text-md font-bold">Starting Price</Typography>
-      <Typography variant="medium" className="text-md font-bold">200$</Typography>
+      <Typography variant="paragraph" className="text-md font-bold">Starting Price</Typography>
+      <Typography variant="paragraph" className="text-md font-bold">200$</Typography>
     </CardFooter>
   </Card>
   )

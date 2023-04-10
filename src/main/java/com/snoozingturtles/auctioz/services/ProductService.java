@@ -10,5 +10,7 @@ public interface ProductService {
     ProductDto getProductById(String productId, String sellerId);
     ProductDto getProductById(String productId);
     List<ProductDto> getAllProductsBySellerId(String sellerId);
+    List<ProductDto> getAllProducts();
+    List<ProductDto> getAllProductsByCategoryId(String categoryId);
     void deleteProduct(String productId, String sellerId);
 }

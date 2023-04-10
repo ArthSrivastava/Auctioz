@@ -91,7 +91,7 @@ const ProductDetails = () => {
             ripple={true}
             fullWidth={true}
           >
-            Buy Now
+            Bid Now
           </Button>
         </CardFooter>
       </Card>

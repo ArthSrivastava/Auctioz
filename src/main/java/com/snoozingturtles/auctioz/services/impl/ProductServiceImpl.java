@@ -33,6 +33,7 @@ public class ProductServiceImpl implements ProductService {
         productById.setDescription(productDto.getDescription());
         productById.setCategoryId(productDto.getCategoryId());
         productById.setSoldOut(productDto.isSoldOut());
+        productById.setImageName(productDto.getImageName());
         productRepo.save(modelMapper.map(productById, Product.class));
     }
 
@@ -53,6 +54,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getAllProductsBySellerId(String sellerId) {
         return productRepo.findAllBySellerId(sellerId)
+                .stream()
+                .map(product -> modelMapper.map(product, ProductDto.class))
+                .toList();
+    }
+
+    @Override
+    public List<ProductDto> getAllProducts() {
+         return productRepo
+                .findAll()
+                 .stream()
+                 .map(product -> modelMapper.map(product, ProductDto.class))
+                 .toList();
+    }
+
+    @Override
+    public List<ProductDto> getAllProductsByCategoryId(String categoryId) {
+        return productRepo
+                .findAllByCategoryId(categoryId)
                 .stream()
                 .map(product -> modelMapper.map(product, ProductDto.class))
                 .toList();

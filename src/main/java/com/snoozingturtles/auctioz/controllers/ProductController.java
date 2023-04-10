@@ -12,11 +12,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/sellers")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    @PostMapping("/{sellerId}/products")
+    @PostMapping("/sellers/{sellerId}/products")
     public ResponseEntity<ApiResponse> createProduct(@PathVariable String sellerId,
                                                      @RequestBody ProductDto productDto) {
         ProductDto product = productService.createProduct(sellerId, productDto);
@@ -29,18 +29,29 @@ public class ProductController {
                         .build()
         );
     }
-    @GetMapping("/{sellerId}/products")
+    @GetMapping("/sellers/{sellerId}/products")
     public ResponseEntity<List<ProductDto>> getAllProductsBySellerId(@PathVariable String sellerId) {
         return ResponseEntity.ok(productService.getAllProductsBySellerId(sellerId));
     }
 
-    @GetMapping("/{sellerId}/products/{productId}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable String sellerId,
-                                                     @PathVariable String productId) {
-        return ResponseEntity.ok(productService.getProductById(productId, sellerId));
+    @GetMapping("/products/{productId}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable String productId) {
+        return ResponseEntity.ok(productService.getProductById(productId));
     }
 
-    @PutMapping("/{sellerId}/products/{productId}")
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        List<ProductDto> allProducts = productService.getAllProducts();
+        return ResponseEntity.ok(allProducts);
+    }
+
+    @GetMapping("/categories/{categoryId}/products")
+    public ResponseEntity<List<ProductDto>> getAllProductsByCategoryId(@PathVariable String categoryId) {
+        List<ProductDto> allProductsByCategoryId = productService.getAllProductsByCategoryId(categoryId);
+        return ResponseEntity.ok(allProductsByCategoryId);
+    }
+
+    @PutMapping("/sellers/{sellerId}/products/{productId}")
     public ResponseEntity<ApiResponse> updateProduct(@PathVariable String sellerId,
                                                      @PathVariable String productId,
                                                      @RequestBody ProductDto productDto) {

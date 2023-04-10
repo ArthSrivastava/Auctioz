@@ -1,8 +1,24 @@
 import React from "react";
 import Base from "../components/Base";
+import { useState } from "react";
 import { Card, Input, Typography, Button } from "@material-tailwind/react";
 
 const Login = () => {
+  const [data, setData] = useState({});
+
+  const handleFormChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    //TODO: make a call to backend to save the data here
+    console.log("final object:", data);
+  };
+
   const loginForm = () => {
     return (
       <Card
@@ -12,12 +28,21 @@ const Login = () => {
         <Typography variant="h1">Log In</Typography>
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6 text-lg">
-            <Input size="lg" color="teal" label="Email" className="text-lg" />
+            <Input
+              size="lg"
+              color="teal"
+              label="Email"
+              className="text-lg"
+              onChange={handleFormChange}
+              name="email"
+            />
             <Input
               size="lg"
               color="teal"
               label="Password"
               className="text-lg"
+              onChange={handleFormChange}
+              name="password"
             />
           </div>
           <Button
@@ -25,6 +50,7 @@ const Login = () => {
             variant="outlined"
             fullWidth
             ripple={true}
+            onClick={handleFormSubmit}
           >
             Login
           </Button>

@@ -2,27 +2,47 @@ import React, { useState } from "react";
 import Base from "../components/Base";
 import { Card, Input, Typography, Button } from "@material-tailwind/react";
 import { signup } from "../services/UserService";
+import { createAddress } from "../services/AddressService";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   //store the signup form data
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
+  const [addressData, setAddressData] = useState({});
 
+  //handle fields like email, name, password
   const handleFormChange = (event) => {
     setData({
       ...data,
-      [event.target.name]: event.target.value 
-    })
-  }
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  //handle fields of address
+  const handleAddressFieldFormChange = (event) => {
+    setAddressData({
+      ...addressData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    //TODO: make a call to backend to save the data here
-    console.log("final object:", data)
     signup(data)
-    .then((responseData) => {
-      console.log("response:", responseData)
-    }).catch((error) => console.log("error:", error))
-  }
+      .then((responseData) => {
+        updateAddress(responseData);
+        toast.success("User registered successfully!");
+      })
+      .catch((error) => toast.error("Some error occurred!"));
+  };
+
+  const updateAddress = (responseData) => {
+    createAddress(addressData, responseData.id)
+      .then((data) => {
+        console.log("address data:", data);
+      })
+      .catch((error) => console.log(error));
+  };
 
   const signupForm = () => {
     return (
@@ -65,7 +85,7 @@ const Signup = () => {
               color="teal"
               label="Address Line 1"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleAddressFieldFormChange}
               name="line1"
             />
             <Input
@@ -73,7 +93,7 @@ const Signup = () => {
               color="teal"
               label="Address Line 2"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleAddressFieldFormChange}
               name="line2"
             />
             <Input
@@ -81,7 +101,7 @@ const Signup = () => {
               color="teal"
               label="City"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleAddressFieldFormChange}
               name="city"
             />
             <Input
@@ -89,7 +109,7 @@ const Signup = () => {
               color="teal"
               label="State"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleAddressFieldFormChange}
               name="state"
             />
             <Input
@@ -97,7 +117,7 @@ const Signup = () => {
               color="teal"
               label="Pincode"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleAddressFieldFormChange}
               name="pincode"
             />
           </div>
@@ -116,11 +136,11 @@ const Signup = () => {
   };
 
   return (
-  <Base>
-    <div className="bg-limeShade h-[91vh] flex justify-center items-center">
+    <Base>
+      <div className="bg-limeShade h-[91vh] flex justify-center items-center">
         {signupForm()}
       </div>
-  </Base>
+    </Base>
   );
 };
 

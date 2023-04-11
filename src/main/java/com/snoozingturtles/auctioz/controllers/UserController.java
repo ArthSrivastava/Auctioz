@@ -18,16 +18,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         UserDto user = userService.createUser(userDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}")
                 .buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(
-                ApiResponse.builder()
-                        .message("User registered successfully!")
-                        .success(true)
-                        .build()
-        );
+        return ResponseEntity.created(uri).body(user);
     }
 
     @GetMapping("/")

@@ -1,15 +1,35 @@
-import { Card, Input, Typography, Button, Select, Option } from "@material-tailwind/react";
-import React, { useState } from "react";
+import {
+  Card,
+  Input,
+  Typography,
+  Button,
+  Select,
+  Option,
+} from "@material-tailwind/react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Base from "../components/Base";
-
+import { retrieveAllCategories } from "../services/CategoryService";
 
 const ListProduct = () => {
+  const [productData, setProductData] = useState({});
+  const [biddingData, setBiddingData] = useState({});
+  const [categories, setCategories] = useState([]);
 
-  const [data, setData] = useState({});
+  useEffect(() => {
+    retrieveAllCategories()
+      .then((categoryData) => {
+        console.log("Categories:", categoryData);
+        setCategories(categoryData);
+      })
+      .catch((error) => {
+        toast.error("Failed to fetch the categories!");
+      });
+  }, []);
 
   const handleFormChange = (event) => {
-    setData({
-      ...data,
+    setProductData({
+      ...productData,
       [event.target.name]: event.target.value,
     });
   };
@@ -19,7 +39,7 @@ const ListProduct = () => {
 
     //TODO: add sellerId also to the data
     //TODO: make a call to backend to save the data here
-    console.log("final object:", data);
+    console.log("final object:", productData);
   };
 
   const listingForm = () => {
@@ -28,13 +48,21 @@ const ListProduct = () => {
         color="transparent"
         className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#e2e2e2]"
       >
+        {console.log(productData)}
         <Typography variant="h1">List product</Typography>
         <Typography className="mt-2 font-normal" variant="h4">
           Enter product details
         </Typography>
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
           <div className="mb-4 flex flex-col gap-6 text-lg">
-            <Input size="lg" color="teal" label="Name" className="text-lg" name="name" onChange={handleFormChange} />
+            <Input
+              size="lg"
+              color="teal"
+              label="Name"
+              className="text-lg"
+              name="name"
+              onChange={handleFormChange}
+            />
             <Input
               size="lg"
               color="teal"
@@ -59,11 +87,24 @@ const ListProduct = () => {
               onChange={handleFormChange}
               name="deadline"
             />
-            <Select label="Select Category" color="teal" name="categoryId" onChange={handleFormChange}>
-                <Option value="c1">C1</Option>
-                <Option>C2</Option>
-                <Option>C3</Option>
-                <Option>C4</Option>
+            <Select
+              label="Select Category"
+              color="teal"
+              name="categoryId"
+              onChange={handleFormChange}
+            >
+              {
+              categories?.map((category) => {
+                        return (
+                          <Option
+                            key={category.id}
+                            value={category.id}
+                          >
+                            {category.name}
+                          </Option>
+                        );
+                      })
+              }
             </Select>
           </div>
           <Button

@@ -12,6 +12,8 @@ public class ProductDto {
     private String description;
     @JsonIgnore
     private String imageName;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean isSoldOut;
     //Updated when bidding details are entered
     @JsonIgnore

@@ -2,10 +2,14 @@ import React from "react";
 import Base from "../components/Base";
 import { useState } from "react";
 import { Card, Input, Typography, Button } from "@material-tailwind/react";
+import { login } from "../services/UserService";
+import { doLogin } from "../services/auth/auth_service";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [data, setData] = useState({});
-
+  const navigate = useNavigate();
   const handleFormChange = (event) => {
     setData({
       ...data,
@@ -15,8 +19,13 @@ const Login = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    //TODO: make a call to backend to save the data here
-    console.log("final object:", data);
+
+    login(data).then((responseData) => {
+      doLogin(responseData, () => {
+        navigate("/");
+        toast.success("Login Successful!");
+      });
+    }).catch((error) => console.log("error:", error));
   };
 
   const loginForm = () => {
@@ -41,6 +50,7 @@ const Login = () => {
               color="teal"
               label="Password"
               className="text-lg"
+              type="password"
               onChange={handleFormChange}
               name="password"
             />

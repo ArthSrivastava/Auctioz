@@ -25,9 +25,7 @@ public class ImageController {
     public ResponseEntity<ApiResponse> uploadImage(@RequestParam("image") MultipartFile image,
                                                    @PathVariable String sellerId,
                                                    @PathVariable String productId) throws IOException {
-        System.out.println("\n\n\n\n BEFORE \n\n\n");
         String imageName = imageService.uploadImage(image, productId, sellerId);
-        System.out.println("\n\n\n\n After \n\n\n");
 
         URI uri = UriComponentsBuilder.fromUriString("/api/v1/images/{imageFileName}").buildAndExpand(imageName)
                 .toUri();

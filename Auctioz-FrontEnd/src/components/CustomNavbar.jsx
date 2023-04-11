@@ -10,16 +10,20 @@ import {
   MenuList,
   MenuItem,
 } from "@material-tailwind/react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { doLogout, isLoggedIn } from "../services/auth/auth_service";
+import { toast } from "react-toastify";
 
 const CustomNavbar = () => {
   const [openNav, setOpenNav] = React.useState(false);
-
+  const [loggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
+    setLoggedIn(isLoggedIn());
   }, []);
 
   const navList = (
@@ -69,6 +73,12 @@ const CustomNavbar = () => {
     </ul>
   );
 
+  const logoutUser = () => {
+    doLogout(() => {
+      navigate("/");
+      toast.success("Logged out successfully!");
+    });
+  };
   return (
     <>
       <Navbar
@@ -94,27 +104,41 @@ const CustomNavbar = () => {
             >
               <span>Sign in</span>
             </Button> */}
-            <Typography
-              as="li"
-              variant="h5"
-              className="p-1 font-normal text-limeShade"
-            >
-              <Link to="/login">Log In</Link>
-            </Typography>
-            {/* <Button
+            {!loggedIn ? (
+              <>
+                <Typography
+                  as="li"
+                  variant="h5"
+                  className="p-1 font-normal text-limeShade"
+                >
+                  <Link to="/login">Log In</Link>
+                </Typography>
+                {/* <Button
               size="lg"
               variant="outlined"
               color="blue-gray"
               className="flex items-center gap-3 border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
               ripple={true}
             > */}
-            <Typography
-              as="li"
-              variant="h5"
-              className="p-1 font-normal text-limeShade"
-            >
-              <Link to="/signup">Sign up</Link>
-            </Typography>
+                <Typography
+                  as="li"
+                  variant="h5"
+                  className="p-1 font-normal text-limeShade"
+                >
+                  <Link to="/signup">Sign up</Link>
+                </Typography>
+              </>
+            ) : (
+              <Typography
+                as="li"
+                variant="h5"
+                className="p-1 font-normal text-limeShade"
+                onClick={logoutUser}
+                style={{ cursor: "pointer" }}
+              >
+                Log out
+              </Typography>
+            )}
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"

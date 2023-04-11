@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PrivateRoutes from "./components/PrivateRoutes";
 function App() {
   return (
     <BrowserRouter>
@@ -15,11 +16,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="home" />} />
         <Route path="home" element={<Home />} />
-        <Route path="products" element={<ListProduct />} />
         <Route path="user/register" element={<UserRegistration />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="product/:productId" element={<ProductDetails />} />
+        <Route path="/" element={<PrivateRoutes />}>
+          <Route path="products" element={<ListProduct />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

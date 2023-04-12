@@ -9,17 +9,20 @@ import {
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Base from "../components/Base";
+import { getCurrentUserData } from "../services/auth/auth_service";
 import { retrieveAllCategories } from "../services/CategoryService";
+import { listProduct } from "../services/ProductService";
+import { createSellerBidding } from "../services/SellerBiddingService";
 
 const ListProduct = () => {
   const [productData, setProductData] = useState({});
   const [biddingData, setBiddingData] = useState({});
   const [categories, setCategories] = useState([]);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     retrieveAllCategories()
       .then((categoryData) => {
-        console.log("Categories:", categoryData);
         setCategories(categoryData);
       })
       .catch((error) => {
@@ -27,6 +30,14 @@ const ListProduct = () => {
       });
   }, []);
 
+  useEffect(() => {
+    populateUser();
+  }, []);
+
+  const populateUser = () => {
+    setUserData(getCurrentUserData());
+  };
+  
   const handleFormChange = (event) => {
     setProductData({
       ...productData,
@@ -34,12 +45,25 @@ const ListProduct = () => {
     });
   };
 
+  const handleBiddingFormData = (event) => {
+    setBiddingData({
+      ...biddingData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    //TODO: add sellerId also to the data
-    //TODO: make a call to backend to save the data here
-    console.log("final object:", productData);
+    listProduct(productData, userData.userId)
+      .then((data) => {
+        createSellerBidding(biddingData, userData.userId, data.id)
+          .then((biddingResponse) => {
+            toast.success("Product listing successful!");
+          })
+          .catch((error) => toast.error("Some error occurred!"));
+      })
+      .catch((error) => toast.error("Product data error!"));
   };
 
   const listingForm = () => {
@@ -48,7 +72,6 @@ const ListProduct = () => {
         color="transparent"
         className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#e2e2e2]"
       >
-        {console.log(productData)}
         <Typography variant="h1">List product</Typography>
         <Typography className="mt-2 font-normal" variant="h4">
           Enter product details
@@ -76,7 +99,7 @@ const ListProduct = () => {
               color="teal"
               label="Start Bid Price"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleBiddingFormData}
               name="startBidPrice"
             />
             <Input
@@ -84,28 +107,24 @@ const ListProduct = () => {
               color="teal"
               label="Deadline"
               className="text-lg"
-              onChange={handleFormChange}
+              onChange={handleBiddingFormData}
               name="deadline"
             />
-            <Select
+            {/* <Select
               label="Select Category"
               color="teal"
               name="categoryId"
-              onChange={handleFormChange}
+              onChange={handleBiddingFormData}
             >
-              {
-              categories?.map((category) => {
-                        return (
-                          <Option
-                            key={category.id}
-                            value={category.id}
-                          >
-                            {category.name}
-                          </Option>
-                        );
-                      })
-              }
-            </Select>
+              {categories &&
+                categories.map((category) => {
+                  return (
+                    <Option key={category.id} value={category.id}>
+                      {category.name}
+                    </Option>
+                  );
+                })}
+            </Select> */}
           </div>
           <Button
             className="mt-6 border-limeShade text-limeShade hover:bg-limeShade hover:text-white"

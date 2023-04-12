@@ -10,7 +10,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 
 import React from "react";
 import Base from "../components/Base";
-const ProductDetails = () => {
+const ProductDetails = ({product}) => {
   const buyNowCard = () => {
     return (
       <Card
@@ -29,7 +29,7 @@ const ProductDetails = () => {
             // color="white"
             className="font-normal uppercase text-[#080808]"
           >
-            Iphone 14
+            {product && product.name}
           </Typography>
           <Typography
             variant="h1"
@@ -40,7 +40,7 @@ const ProductDetails = () => {
               <span className="text-md">Current Price</span>
             </Typography>
             <span className="mt-2 text-4xl">$</span>
-            <span classname="text-sm">200</span>{" "}
+            <span className="text-sm">{product && product.bidInfo && product.bidInfo.startBidPrice}</span>{" "}
           </Typography>
         </CardHeader>
         <CardBody className="p-0">
@@ -114,21 +114,7 @@ const ProductDetails = () => {
 
           <Typography variant="h5" className="font-thin">
             <p className="mx-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Pariatur, at temporibus repudiandae porro provident esse odio
-              harum vitae voluptatibus aliquid suscipit fuga unde id praesentium
-              iste dicta corrupti beatae. Voluptates sapiente dolor iste,
-              explicabo laboriosam sequi amet nihil suscipit necessitatibus
-              exercitationem mollitia aliquid repellendus nam iusto debitis nisi
-              dolorem quo possimus. Laborum non delectus ipsum cum in, similique
-              repellendus modi eligendi veritatis assumenda a nostrum, ea,
-              aliquam odit molestiae error corrupti! Laborum tempora nostrum
-              temporibus esse nobis at voluptatem quasi quidem veniam, a libero?
-              Possimus expedita ducimus consequatur natus? Saepe eum quaerat
-              nemo tempora doloremque in, unde deserunt incidunt. Architecto
-              sequi impedit assumenda hic vitae illum temporibus dolore! Nemo a
-              harum hic aut voluptatem molestias, rerum error reprehenderit
-              magnam sapiente natus dolorum, facere dolore incidunt neque sint.
+              {product && product.description}
             </p>
           </Typography>
         </div>

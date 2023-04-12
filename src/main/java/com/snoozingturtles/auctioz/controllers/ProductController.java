@@ -17,18 +17,13 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
     @PostMapping("/sellers/{sellerId}/products")
-    public ResponseEntity<ApiResponse> createProduct(@PathVariable String sellerId,
+    public ResponseEntity<ProductDto> createProduct(@PathVariable String sellerId,
                                                      @RequestBody ProductDto productDto) {
         ProductDto product = productService.createProduct(sellerId, productDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{productId}")
                 .buildAndExpand(product.getId()).toUri();
-        return ResponseEntity.created(uri).body(
-                ApiResponse.builder()
-                        .message("Product listed successfully!")
-                        .success(true)
-                        .build()
-        );
-    }
+        return ResponseEntity.created(uri).body(product);
+    }   
     @GetMapping("/sellers/{sellerId}/products")
     public ResponseEntity<List<ProductDto>> getAllProductsBySellerId(@PathVariable String sellerId) {
         return ResponseEntity.ok(productService.getAllProductsBySellerId(sellerId));

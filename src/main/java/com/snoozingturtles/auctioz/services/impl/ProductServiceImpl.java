@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
         productById.setCategoryId(productDto.getCategoryId());
         productById.setSoldOut(productDto.isSoldOut());
         productById.setImageName(productDto.getImageName());
+        productById.setBiddingId(productDto.getBiddingId());
         productRepo.save(modelMapper.map(productById, Product.class));
     }
 

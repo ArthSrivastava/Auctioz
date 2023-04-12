@@ -1,6 +1,7 @@
 package com.snoozingturtles.auctioz.services.impl;
 
 import com.snoozingturtles.auctioz.dto.BiddingDto;
+import com.snoozingturtles.auctioz.dto.ProductDto;
 import com.snoozingturtles.auctioz.exceptions.EntityNotFoundException;
 import com.snoozingturtles.auctioz.models.Bidding;
 import com.snoozingturtles.auctioz.repositories.BiddingRepo;
@@ -21,10 +22,14 @@ public class BiddingServiceImpl implements BiddingService {
 
     @Override
     public BiddingDto createBidding(String productId, String sellerId, BiddingDto biddingDto) {
-        productService.getProductById(productId, sellerId);
+        ProductDto productById = productService.getProductById(productId, sellerId);
         Bidding bidding = modelMapper.map(biddingDto, Bidding.class);
         bidding.setProductId(productId);
-        return modelMapper.map(biddingRepo.save(bidding), BiddingDto.class);
+        Bidding savedBid = biddingRepo.save(bidding);
+
+        productById.setBiddingId(savedBid.getId());
+        productService.updateProduct(productId, sellerId, productById);
+        return modelMapper.map(savedBid, BiddingDto.class);
     }
 
     @Override

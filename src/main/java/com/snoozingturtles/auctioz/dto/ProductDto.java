@@ -16,7 +16,7 @@ public class ProductDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private boolean isSoldOut;
     //Updated when bidding details are entered
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String biddingId;
 
     //Selected from front-end

@@ -7,5 +7,5 @@ export const listProduct = async (productData, sellerId) => {
 };
 
 export const getAllProducts = async () => {
-  return await myAxios.get(PRODUCT_URL).then((response) => response.data);
+  return await myAxios.get(PRODUCT_URL);
 };

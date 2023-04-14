@@ -9,6 +9,7 @@ import ProductDetails from "./pages/ProductDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoutes from "./components/PrivateRoutes";
+import BidNowPage from "./pages/BidNowPage";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
         <Route path="product/:productId" element={<ProductDetails />} />
         <Route path="/" element={<PrivateRoutes />}>
           <Route path="products" element={<ListProduct />} />
+          <Route path="bids/:productId" element={<BidNowPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

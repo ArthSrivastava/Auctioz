@@ -5,6 +5,7 @@ import {
   Button,
   Select,
   Option,
+  Textarea,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -86,7 +87,7 @@ const ListProduct = () => {
               name="name"
               onChange={handleFormChange}
             />
-            <Input
+            <Textarea
               size="lg"
               color="teal"
               label="Description"

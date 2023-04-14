@@ -8,9 +8,33 @@ import {
 } from "@material-tailwind/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Base from "../components/Base";
-const ProductDetails = ({product}) => {
+import { Link, useLocation } from "react-router-dom";
+import BidNowPage from "./BidNowPage";
+const ProductDetails = () => {
+  const location = useLocation();
+  const product = location.state?.product;
+  const [deadline, setDeadline] = useState();
+
+  useEffect(() => {
+    const date = new Date(product.bidInfo.deadline);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let dt = date.getDate();
+
+    if (dt < 10) {
+      dt = "0" + dt;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    const formattedDate = dt + "-" + month + "-" + year;
+    setDeadline(formattedDate);
+  }, []);
+
+
   const buyNowCard = () => {
     return (
       <Card
@@ -29,7 +53,7 @@ const ProductDetails = ({product}) => {
             // color="white"
             className="font-normal uppercase text-[#080808]"
           >
-            {product && product.name}
+            {product.name}
           </Typography>
           <Typography
             variant="h1"
@@ -39,8 +63,10 @@ const ProductDetails = ({product}) => {
             <Typography variant="h4">
               <span className="text-md">Current Price</span>
             </Typography>
-            <span className="mt-2 text-4xl">$</span>
-            <span className="text-sm">{product && product.bidInfo && product.bidInfo.startBidPrice}</span>{" "}
+            <span className="mt-2 text-4xl">
+              {product.bidInfo.startBidPrice}$
+            </span>
+            <span className="text-sm">{}</span>{" "}
           </Typography>
         </CardHeader>
         <CardBody className="p-0">
@@ -49,13 +75,17 @@ const ProductDetails = ({product}) => {
               <span className="rounded-full border border-white/20 bg-white/20 p-1">
                 <CheckIcon strokeWidth={2} className="h-3 w-3" />
               </span>
-              <Typography className="font-normal">Seller - Test Seller 1</Typography>
+              <Typography className="font-normal">
+                Seller - Test Seller 1
+              </Typography>
             </li>
             <li className="flex items-center gap-4">
               <span className="rounded-full border border-white/20 bg-white/20 p-1">
                 <CheckIcon strokeWidth={2} className="h-3 w-3" />
               </span>
-              <Typography className="font-normal">Deadline - 20th April, 2023</Typography>
+              <Typography className="font-normal">
+                Deadline - {deadline}
+              </Typography>
             </li>
             <li className="flex items-center gap-4">
               <span className="rounded-full border border-white/20 bg-white/20 p-1">
@@ -69,9 +99,7 @@ const ProductDetails = ({product}) => {
               <span className="rounded-full border border-white/20 bg-white/20 p-1">
                 <CheckIcon strokeWidth={2} className="h-3 w-3" />
               </span>
-              <Typography className="font-normal">
-                Free Shipping
-              </Typography>
+              <Typography className="font-normal">Free Shipping</Typography>
             </li>
             <li className="flex items-center gap-4">
               <span className="rounded-full border border-white/20 bg-white/20 p-1">
@@ -84,6 +112,7 @@ const ProductDetails = ({product}) => {
           </ul>
         </CardBody>
         <CardFooter className="mt-12 p-0">
+          <Link to={`/bids/${product.id}`} element={<BidNowPage />}>
           <Button
             variant="outlined"
             size="sm"
@@ -93,13 +122,14 @@ const ProductDetails = ({product}) => {
           >
             Bid Now
           </Button>
+          </Link>
         </CardFooter>
       </Card>
     );
   };
   const detailCard = () => {
     return (
-      <div className="h-full w-[70vw] bg-white flex flex-col gap-4 mt-3">
+      <div className="h-[100vh] w-[70vw] bg-white flex flex-col gap-4 mt-3">
         <div className="grid grid-cols-3 gap-8 p-4">
           <div className="col-span-2">
             <img src="/src/assets/iphone14.webp" className="max-h-content" />
@@ -113,9 +143,7 @@ const ProductDetails = ({product}) => {
           </Typography>
 
           <Typography variant="h5" className="font-thin">
-            <p className="mx-3">
-              {product && product.description}
-            </p>
+            <p className="mx-3">{product && product.description}, Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure maiores id molestiae doloribus asperiores tenetur nesciunt repudiandae. Est asperiores qui delectus nam ipsa sapiente iusto necessitatibus fuga, culpa, excepturi, suscipit a accusantium iste eaque quia sequi voluptates. Corporis, voluptas maxime omnis similique tempora laborum tenetur dolor inventore explicabo eos quidem.</p>
           </Typography>
         </div>
       </div>

@@ -8,48 +8,61 @@ import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
 import ProductDetails from "./ProductDetails";
 const Home = () => {
   const [fullProductDetails, setFullProductDetails] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    getAllProducts()
-      .then((data) => {
-        populateProductBiddingDetails(data);
-      })
-      .catch(() => {
-        toast.error("Some error occurred in loading the products!");
-      });
+    populateProducts();
   }, []);
 
-  const populateProductBiddingDetails = (productData) => {
-    productData.forEach((product, index) => {
-      // console.log(`p${index} `, product);
+  const populateProducts = async () => {
+    try {
+      const productData = await getAllProducts();
+      populateProductBiddingDetails(productData.data);
+    } catch {
+      toast.error("Some error occurred in loading the products!");
+    }
+  };
+
+  const populateProductBiddingDetails = async (productData) => {
+    const promises = productData.map(async (product) => {
       const sellerId = product.sellerId;
       const productId = product.id;
-
-      getBiddingDetailsByProductId(sellerId, productId)
-        .then((data) => {
-          // console.log("bdata:", data)
-          product.bidInfo = data;
-        })
-        .catch(() =>
-          toast.error("Some error occurred while fetching bidding details!")
+      try {
+        const biddingData = await getBiddingDetailsByProductId(
+          sellerId,
+          productId
         );
-      setFullProductDetails([...fullProductDetails, product]);
+        product.bidInfo = biddingData.data;
+        return product;
+      } catch {
+        toast.error("Some error occurred in loading the bidding info!");
+        return;
+      }
     });
+
+    const products = await Promise.all(promises);
+    setFullProductDetails(products);
+    setLoading(false);
   };
 
   return (
     <Base>
-      {console.log("FPD:", fullProductDetails)}
       <div className="p-10 grid grid-cols-4 gap-4">
-        {fullProductDetails.map((product) => {
+        {loading ? (
+          <h1 className="text-white">Loading...</h1>
+        ) : (
+          fullProductDetails.map((product) => {
             return (
               <Link
                 to={`/product/${product.id}`}
-                element={<ProductDetails product={product} />}
+                element={<ProductDetails />}
+                key={product.id}
+                state={{ product: product }}
               >
                 <ProductCard product={product} />
               </Link>
             );
-          })}
+          })
+        )}
       </div>
     </Base>
   );

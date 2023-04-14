@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
           Starting Price
         </Typography>
         <Typography variant="paragraph" className="text-md font-bold">
-          {product && product.bidInfo && product.bidInfo.startBidPrice}$
+          {product.bidInfo && product.bidInfo.startBidPrice}$
         </Typography>
       </CardFooter>
     </Card>

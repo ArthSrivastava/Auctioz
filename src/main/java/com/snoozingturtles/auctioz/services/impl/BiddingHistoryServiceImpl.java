@@ -27,7 +27,7 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
     public void createBid(String productId, String userId, BiddingHistoryDto biddingHistoryDto) {
         BiddingDto biddingById = getBiddingDto(productId);
 
-        checkValidBidPrice(biddingHistoryDto.getBiddingPrice(), biddingById.getCurrentBidPrice());
+        checkValidBidPrice(biddingHistoryDto.getBiddingAmount(), biddingById.getCurrentBidPrice());
         updateBiddingDetails(biddingHistoryDto, biddingById, userId);
         biddingRepo.save(modelMapper.map(biddingById, Bidding.class));
 
@@ -38,7 +38,7 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
     }
 
     private static void updateBiddingDetails(BiddingHistoryDto biddingHistoryDto, BiddingDto biddingById, String userId) {
-        biddingById.setCurrentBidPrice(biddingHistoryDto.getBiddingPrice());
+        biddingById.setCurrentBidPrice(biddingHistoryDto.getBiddingAmount());
         biddingById.setCurrentBidderId(userId);
     }
 
@@ -46,12 +46,12 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
     public void updateBid(String productId, String userId, String bidId, BiddingHistoryDto biddingHistoryDto) {
         BiddingDto biddingById = getBiddingDto(productId);
 
-        checkValidBidPrice(biddingHistoryDto.getBiddingPrice(), biddingById.getCurrentBidPrice());
+        checkValidBidPrice(biddingHistoryDto.getBiddingAmount(), biddingById.getCurrentBidPrice());
         updateBiddingDetails(biddingHistoryDto, biddingById, userId);
         biddingRepo.save(modelMapper.map(biddingById, Bidding.class));
 
         BiddingHistoryDto biddingHistory = getBidOfProductByUserIdAndBidId(productId, userId, bidId);
-        biddingHistory.setBiddingPrice(biddingHistoryDto.getBiddingPrice());
+        biddingHistory.setBiddingAmount(biddingHistoryDto.getBiddingAmount());
         biddingHistory.setTimestamp(LocalDateTime.now());
         biddingHistoryRepo.save(modelMapper.map(biddingHistory, BiddingHistory.class));
     }

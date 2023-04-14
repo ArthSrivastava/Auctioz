@@ -19,4 +19,13 @@ public class GlobalExceptionHandler {
                                 .build()
                 );
     }
+
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<ApiResponse> loginExceptionHandler(LoginException exception) {
+        return ResponseEntity.badRequest().body(
+                ApiResponse.builder()
+                        .message(exception.getMessage())
+                        .success(false)
+                        .build());
+    }
 }

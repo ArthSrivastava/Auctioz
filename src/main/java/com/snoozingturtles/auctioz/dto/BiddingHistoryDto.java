@@ -10,7 +10,7 @@ public class BiddingHistoryDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     private String userId;
-    private long biddingPrice;
+    private long biddingAmount;
     private String productId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

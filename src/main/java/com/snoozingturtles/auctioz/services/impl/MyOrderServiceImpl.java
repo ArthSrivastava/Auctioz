@@ -4,6 +4,7 @@ import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.snoozingturtles.auctioz.dto.MyOrderDto;
+import com.snoozingturtles.auctioz.dto.ProductDto;
 import com.snoozingturtles.auctioz.exceptions.EntityNotFoundException;
 import com.snoozingturtles.auctioz.models.MyOrder;
 import com.snoozingturtles.auctioz.repositories.MyOrderRepo;
@@ -55,6 +56,11 @@ public class MyOrderServiceImpl implements MyOrderService {
     public void updatePaymentSuccess(MyOrderDto myOrderDto) {
         MyOrder myOrder = myOrderRepo.findByRazorpayOrderId(myOrderDto.getRazorpayOrderId())
                 .orElseThrow(() -> new EntityNotFoundException("No such order found!"));
+
+        ProductDto productDto = productService.getProductById(myOrder.getProductId());
+        productDto.setSoldOut(true);
+        productService.updateProduct(myOrder.getProductId(), productDto.getSellerId(), productDto);
+
         myOrder.setPaymentId(myOrderDto.getPaymentId());
         myOrder.setStatus(myOrderDto.getStatus());
         myOrderRepo.save(myOrder);

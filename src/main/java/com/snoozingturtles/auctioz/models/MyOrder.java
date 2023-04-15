@@ -20,7 +20,7 @@ public class MyOrder {
     private String userId;
     private String productId;
     private String razorpayOrderId;
-    private long amount;
+    private int amount;
     private String status;
     private String paymentId;
     private LocalDateTime timestamp;

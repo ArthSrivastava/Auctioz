@@ -18,16 +18,9 @@ public class MyOrderController {
     private final MyOrderService myOrderService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createOrder(@RequestBody MyOrderDto myOrderDto) throws RazorpayException {
+    public ResponseEntity<MyOrderDto> createOrder(@RequestBody MyOrderDto myOrderDto) throws RazorpayException {
         MyOrderDto order = myOrderService.createOrder(myOrderDto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{orderId}")
-                .buildAndExpand(order.getId()).toUri();
-        return ResponseEntity.created(uri).body(
-                ApiResponse.builder()
-                        .message("Order created successfully!")
-                        .success(true)
-                        .build()
-        );
+        return ResponseEntity.ok(order);
     }
 
     @PutMapping

@@ -48,15 +48,17 @@ public class EmailServiceImpl implements EmailService {
     public void sendSimpleEmail() {
         List<BiddingDto> biddingDtoList = biddingService.getAllBiddings();
         List<BiddingDto> winningBids = biddingDtoList.stream()
-                .filter(biddingDto -> biddingDto.getDeadline().isBefore(LocalDateTime.now())
-                        && !productService.getProductById(biddingDto.getProductId()).isSoldOut())
+                .filter(biddingDto -> {
+                    System.out.println(biddingDto + " " + LocalDateTime.now());
+                   return biddingDto.getDeadline().isBefore(LocalDateTime.now())
+                            && !productService.getProductById(biddingDto.getProductId()).isSoldOut();
+                })
                 .toList();
         List<String> bidWinnerEmailList = winningBids.stream()
                 .map(BiddingDto::getCurrentBidderId)
                 .map(userService::getUserById)
                 .map(UserDto::getEmail)
                 .toList();
-
         String subject = "Congratulations on winning the bid!";
         int l = bidWinnerEmailList.size();
         for(int i = 0; i < l; i++) {
@@ -78,7 +80,7 @@ public class EmailServiceImpl implements EmailService {
                     bid.getCurrentBidderId() +
                     "/products/" +
                     bid.getProductId() +
-                    "/orders");
+                    "/orders/pay");
             simpleMailMessage.setText(body);
 
             javaMailSender.send(simpleMailMessage);

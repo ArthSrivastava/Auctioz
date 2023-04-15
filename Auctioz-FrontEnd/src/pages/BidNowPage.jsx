@@ -136,7 +136,7 @@ const BidNowPage = () => {
             ripple={true}
             onClick={handleFormSubmit}
           >
-            Signup
+            Bid
           </Button>
         </form>
       </Card>

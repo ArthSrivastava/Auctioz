@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import PrivateRoutes from "./components/PrivateRoutes";
 import BidNowPage from "./pages/BidNowPage";
+import PlaceOrder from "./pages/PlaceOrder";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<PrivateRoutes />}>
           <Route path="products" element={<ListProduct />} />
           <Route path="bids/:productId" element={<BidNowPage />} />
+          <Route path="users/:userId/products/:productId/orders/pay" element={<PlaceOrder />} />
         </Route>
       </Routes>
     </BrowserRouter>

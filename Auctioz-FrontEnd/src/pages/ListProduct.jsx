@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import Base from "../components/Base";
 import { getCurrentUserData } from "../services/auth/auth_service";
 import { retrieveAllCategories } from "../services/CategoryService";
+import { uploadImage } from "../services/ImageService";
 import { listProduct } from "../services/ProductService";
 import { createSellerBidding } from "../services/SellerBiddingService";
 
@@ -20,6 +21,7 @@ const ListProduct = () => {
   const [biddingData, setBiddingData] = useState({});
   const [categories, setCategories] = useState([]);
   const [userData, setUserData] = useState({});
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     retrieveAllCategories()
@@ -38,12 +40,21 @@ const ListProduct = () => {
   const populateUser = () => {
     setUserData(getCurrentUserData());
   };
-  
+
   const handleFormChange = (event) => {
     setProductData({
       ...productData,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleFileChange = (event) => {
+    console.log("image:", event.target.files[0]);
+    if (!event.target.files[0].type.startsWith("image")) {
+      toast.error("Please select an image file!");
+      return;
+    }
+    setImage(event.target.files[0]);
   };
 
   const handleBiddingFormData = (event) => {
@@ -59,7 +70,12 @@ const ListProduct = () => {
     listProduct(productData, userData.userId)
       .then((data) => {
         createSellerBidding(biddingData, userData.userId, data.id)
-          .then((biddingResponse) => {
+          .then(async (biddingResponse) => {
+            try {
+            const resp = await uploadImage(image, data.sellerId, data.id);
+            } catch {
+              toast.error("Image upload failed!")
+            }
             toast.success("Product listing successful!");
           })
           .catch((error) => toast.error("Some error occurred!"));
@@ -110,6 +126,15 @@ const ListProduct = () => {
               className="text-lg"
               onChange={handleBiddingFormData}
               name="deadline"
+            />
+            <Input
+              size="lg"
+              color="teal"
+              label="Image"
+              className="text-lg"
+              type="file"
+              onChange={handleFileChange}
+              name="image"
             />
             {/* <Select
               label="Select Category"

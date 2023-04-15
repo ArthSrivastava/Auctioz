@@ -77,6 +77,7 @@ const Signup = () => {
               color="teal"
               label="Password"
               className="text-lg"
+              type="password"
               onChange={handleFormChange}
               name="password"
             />

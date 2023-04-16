@@ -6,6 +6,8 @@ import { login } from "../services/UserService";
 import { doLogin } from "../services/auth/auth_service";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import otherParticleConfig from "../components/config/other-particle-config";
+import ParticleBackground from "../components/ParticleBackground";
 
 const Login = () => {
   const [data, setData] = useState({});
@@ -32,7 +34,7 @@ const Login = () => {
     return (
       <Card
         color="transparent"
-        className="w-[30vw] h-[40vh] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#e2e2e2]"
+        className="w-[30vw] h-[40vh] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#ffffff]"
       >
         <Typography variant="h1">Log In</Typography>
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
@@ -70,7 +72,8 @@ const Login = () => {
   };
   return (
     <Base>
-      <div className="bg-limeShade h-[91vh] flex justify-center items-center">
+      <div className="h-[91vh] flex justify-center items-center">
+      <ParticleBackground particleOptions={otherParticleConfig}/>
         {loginForm()}
       </div>
     </Base>

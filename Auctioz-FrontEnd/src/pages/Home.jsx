@@ -6,6 +6,9 @@ import ProductCard from "../components/ProductCard";
 import { getAllProducts } from "../services/ProductService";
 import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
 import ProductDetails from "./ProductDetails";
+import ParticleBackground from "../components/ParticleBackground";
+import homeParticleConfig from "../components/config/home-particle-config";
+
 const Home = () => {
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -46,6 +49,7 @@ const Home = () => {
 
   return (
     <Base>
+    <ParticleBackground particleOptions={homeParticleConfig}/>
       <div className="p-10 grid grid-cols-4 gap-4">
         {loading ? (
           <h1 className="text-white">Loading...</h1>

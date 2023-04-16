@@ -82,7 +82,7 @@ const CustomNavbar = () => {
   return (
     <>
       <Navbar
-        className="sticky inset-0 z-10 h-max max-w-full rounded-none py-0 px-4 lg:px-8 lg:py-4 bg-[#212121]"
+        className="sticky inset-0 z-10 h-max max-w-full rounded-none py-0 px-4 lg:px-8 lg:py-4 bg-[#212121] my-0"
         color="transparent"
       >
         <div className="flex items-center justify-between text-blue-gray-900">

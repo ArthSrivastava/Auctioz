@@ -4,7 +4,8 @@ import { Card, Input, Typography, Button } from "@material-tailwind/react";
 import { signup } from "../services/UserService";
 import { createAddress } from "../services/AddressService";
 import { toast } from "react-toastify";
-
+import otherParticleConfig from "../components/config/other-particle-config";
+import ParticleBackground from "../components/ParticleBackground";
 const Signup = () => {
   //store the signup form data
   const [data, setData] = useState({});
@@ -48,7 +49,7 @@ const Signup = () => {
     return (
       <Card
         color="transparent"
-        className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#e2e2e2]"
+        className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#ffffff]"
       >
         <Typography variant="h1">Sign Up</Typography>
         <Typography className="mt-2 font-normal" variant="h4">
@@ -138,7 +139,8 @@ const Signup = () => {
 
   return (
     <Base>
-      <div className="bg-limeShade h-[91vh] flex justify-center items-center">
+      <div className="h-[91vh] flex justify-center items-center">
+      <ParticleBackground particleOptions={otherParticleConfig}/>
         {signupForm()}
       </div>
     </Base>

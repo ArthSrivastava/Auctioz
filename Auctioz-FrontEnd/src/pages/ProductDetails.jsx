@@ -12,10 +12,16 @@ import React, { useEffect, useState } from "react";
 import Base from "../components/Base";
 import { Link, useLocation } from "react-router-dom";
 import BidNowPage from "./BidNowPage";
+import { BASE_URL } from "../services/helper";
+import { getUserById } from "../services/UserService";
+import otherParticleConfig from "../components/config/other-particle-config";
+import ParticleBackground from "../components/ParticleBackground";
+
 const ProductDetails = () => {
   const location = useLocation();
   const product = location.state?.product;
   const [deadline, setDeadline] = useState();
+  const [seller, setSeller] = useState();
 
   useEffect(() => {
     const date = new Date(product.bidInfo.deadline);
@@ -32,8 +38,13 @@ const ProductDetails = () => {
 
     const formattedDate = dt + "-" + month + "-" + year;
     setDeadline(formattedDate);
+    populateSeller();
   }, []);
 
+  const populateSeller = async () => {
+    const sellerData = await getUserById(product.sellerId);
+    setSeller(sellerData.data);
+  };
 
   const buyNowCard = () => {
     return (
@@ -50,14 +61,12 @@ const ProductDetails = () => {
         >
           <Typography
             variant="h3"
-            // color="white"
             className="font-normal uppercase text-[#080808]"
           >
             {product.name}
           </Typography>
           <Typography
             variant="h1"
-            // color="white"
             className="mt-6 flex justify-center gap-1 text-7xl font-normal text-[#080808]"
           >
             <Typography variant="h4">
@@ -76,7 +85,7 @@ const ProductDetails = () => {
                 <CheckIcon strokeWidth={2} className="h-3 w-3" />
               </span>
               <Typography className="font-normal">
-                Seller - Test Seller 1
+                Seller - {seller?.name}
               </Typography>
             </li>
             <li className="flex items-center gap-4">
@@ -113,15 +122,15 @@ const ProductDetails = () => {
         </CardBody>
         <CardFooter className="mt-12 p-0">
           <Link to={`/bids/${product.id}`} element={<BidNowPage />}>
-          <Button
-            variant="outlined"
-            size="sm"
-            className="hidden lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
-            ripple={true}
-            fullWidth={true}
-          >
-            Bid Now
-          </Button>
+            <Button
+              variant="outlined"
+              size="sm"
+              className="hidden lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
+              ripple={true}
+              fullWidth={true}
+            >
+              Bid Now
+            </Button>
           </Link>
         </CardFooter>
       </Card>
@@ -132,7 +141,10 @@ const ProductDetails = () => {
       <div className="h-[100vh] w-[70vw] bg-white flex flex-col gap-4 mt-3">
         <div className="grid grid-cols-3 gap-8 p-4">
           <div className="col-span-2">
-            <img src="/src/assets/iphone14.webp" className="max-h-content" />
+            <img
+              src={BASE_URL + "/images/" + product.imageName}
+              className="h-[60vh] w-full object-contain"
+            />
           </div>
 
           <div>{buyNowCard()}</div>
@@ -143,7 +155,15 @@ const ProductDetails = () => {
           </Typography>
 
           <Typography variant="h5" className="font-thin">
-            <p className="mx-3">{product && product.description}, Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure maiores id molestiae doloribus asperiores tenetur nesciunt repudiandae. Est asperiores qui delectus nam ipsa sapiente iusto necessitatibus fuga, culpa, excepturi, suscipit a accusantium iste eaque quia sequi voluptates. Corporis, voluptas maxime omnis similique tempora laborum tenetur dolor inventore explicabo eos quidem.</p>
+            <p className="mx-3">
+              {product && product.description}, Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Iure maiores id molestiae doloribus
+              asperiores tenetur nesciunt repudiandae. Est asperiores qui
+              delectus nam ipsa sapiente iusto necessitatibus fuga, culpa,
+              excepturi, suscipit a accusantium iste eaque quia sequi
+              voluptates. Corporis, voluptas maxime omnis similique tempora
+              laborum tenetur dolor inventore explicabo eos quidem.
+            </p>
           </Typography>
         </div>
       </div>
@@ -151,7 +171,8 @@ const ProductDetails = () => {
   };
   return (
     <Base>
-      <div className="flex h-full w-full bg-limeShade justify-center items-center">
+      <div className="flex h-full w-full justify-center items-center">
+        <ParticleBackground particleOptions={otherParticleConfig} />
         {detailCard()}
       </div>
     </Base>

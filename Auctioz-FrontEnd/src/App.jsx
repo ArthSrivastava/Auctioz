@@ -11,10 +11,12 @@ import "react-toastify/dist/ReactToastify.css";
 import PrivateRoutes from "./components/PrivateRoutes";
 import BidNowPage from "./pages/BidNowPage";
 import PlaceOrder from "./pages/PlaceOrder";
+import ParticleBackground from "./components/ParticleBackground";
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer position="bottom-center" />
+      
       <Routes>
         <Route path="/" element={<Navigate to="home" />} />
         <Route path="home" element={<Home />} />

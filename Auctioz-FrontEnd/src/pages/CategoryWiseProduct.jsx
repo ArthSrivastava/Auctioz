@@ -1,41 +1,28 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Base from "../components/Base";
-import ProductCard from "../components/ProductCard";
-import { getAllProducts } from "../services/ProductService";
-import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
-import ProductDetails from "./ProductDetails";
 import ParticleBackground from "../components/ParticleBackground";
 import homeParticleConfig from "../components/config/home-particle-config";
-import { retrieveAllCategories } from "../services/CategoryService";
+import { retrieveAllProductsByCategory } from "../services/CategoryService";
 import ProductFeed from "../components/ProductFeed";
-import { UserContext } from "../contexts/UserContext";
-
-const Home = () => {
+import { toast } from "react-toastify";
+import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
+const CategoryWiseProduct = () => {
+  const { categoryId } = useParams();  //TODO: handle state globally
   const [fullProductDetails, setFullProductDetails] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
-  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     populateProducts();
-    populateCategories();
   }, []);
 
   const populateProducts = async () => {
-    console.log("Getting user:", user);
     try {
-      const productData = await getAllProducts();
+      const productData = await retrieveAllProductsByCategory(categoryId);
       populateProductBiddingDetails(productData.data);
     } catch {
       toast.error("Some error occurred in loading the products!");
     }
   };
-
-  const populateCategories = async () => {
-    const categoryData = await retrieveAllCategories();
-    setCategories(categoryData.data);
-  }
 
   const populateProductBiddingDetails = async (productData) => {
     const promises = productData.map(async (product) => {
@@ -53,24 +40,22 @@ const Home = () => {
         return;
       }
     });
-
     const products = await Promise.all(promises);
     setFullProductDetails(products);
     setLoading(false);
   };
-
   return (
     <Base>
-    <ParticleBackground particleOptions={homeParticleConfig}/>
+      <ParticleBackground particleOptions={homeParticleConfig} />
       <div className="p-10 grid grid-cols-4 gap-4">
         {loading ? (
           <h1 className="text-white">Loading...</h1>
         ) : (
-          <ProductFeed fullProductDetails={ fullProductDetails } />
+          <ProductFeed fullProductDetails={fullProductDetails} />
         )}
       </div>
     </Base>
   );
 };
 
-export default Home;
+export default CategoryWiseProduct;

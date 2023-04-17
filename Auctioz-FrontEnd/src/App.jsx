@@ -12,6 +12,7 @@ import PrivateRoutes from "./components/PrivateRoutes";
 import BidNowPage from "./pages/BidNowPage";
 import PlaceOrder from "./pages/PlaceOrder";
 import ParticleBackground from "./components/ParticleBackground";
+import CategoryWiseProduct from "./pages/CategoryWiseProduct";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,7 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="product/:productId" element={<ProductDetails />} />
+        <Route path="products/categories/:categoryId" element={<CategoryWiseProduct />} />
         <Route path="/" element={<PrivateRoutes />}>
           <Route path="products" element={<ListProduct />} />
           <Route path="bids/:productId" element={<BidNowPage />} />

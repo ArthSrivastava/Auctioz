@@ -13,10 +13,13 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { doLogout, isLoggedIn } from "../services/auth/auth_service";
 import { toast } from "react-toastify";
+import { retrieveAllCategories } from "../services/CategoryService";
+import CategoryWiseProduct from "../pages/CategoryWiseProduct";
 
 const CustomNavbar = () => {
   const [openNav, setOpenNav] = React.useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   React.useEffect(() => {
     window.addEventListener(
@@ -24,8 +27,17 @@ const CustomNavbar = () => {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
     setLoggedIn(isLoggedIn());
+    populateCategories();
   }, []);
 
+  const populateCategories = async () => {
+    const categoryData = await retrieveAllCategories();
+    setCategories(categoryData.data);
+  };
+
+  const handleCategoryChange = (event) => {
+    console.log("cdata:", event.target.value);
+  };
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       <Typography as="li" variant="h5" className="p-1 font-normal">
@@ -41,15 +53,31 @@ const CustomNavbar = () => {
       >
         <MenuHandler>
           <Typography as="li" variant="h5" className="p-1 font-normal">
-            <a href="#" className="flex items-center text-limeShade">
+            <a className="flex items-center text-limeShade">
               Shop By Category
             </a>
           </Typography>
         </MenuHandler>
-        <MenuList className="bg-[#212121] text-limeShade border-limeShade">
-          <MenuItem>Item 1</MenuItem>
-          <MenuItem>Item 2</MenuItem>
-          <MenuItem>Item 3</MenuItem>
+        <MenuList
+          className="bg-[#212121] text-limeShade border-limeShade"
+          onChange={handleCategoryChange}
+        >
+          <MenuItem>
+            <Link to="/" value="0">All products</Link>
+          </MenuItem>
+          {categories &&
+            categories.map((category) => {
+              return (
+                <MenuItem key={category.id} value={category.id}>
+                  <Link
+                    to={`/products/categories/${category.id}`}
+                    element={<CategoryWiseProduct />}
+                  >
+                    {category.name}
+                  </Link>
+                </MenuItem>
+              );
+            })}
         </MenuList>
       </Menu>
       <Typography

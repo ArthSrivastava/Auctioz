@@ -3,6 +3,7 @@ package com.snoozingturtles.auctioz.controllers;
 import com.snoozingturtles.auctioz.dto.UserDto;
 import com.snoozingturtles.auctioz.payloads.ApiResponse;
 import com.snoozingturtles.auctioz.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto user = userService.createUser(userDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userId}")
                 .buildAndExpand(user.getId()).toUri();
@@ -37,7 +38,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<ApiResponse> updateUser(@PathVariable String userId,
-                                                  @RequestBody UserDto userDto) {
+                                                  @Valid @RequestBody UserDto userDto) {
         userService.updateUser(userId, userDto);
         return ResponseEntity.ok(
                 ApiResponse.builder()

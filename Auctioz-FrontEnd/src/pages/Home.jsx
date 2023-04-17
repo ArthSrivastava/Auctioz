@@ -16,14 +16,12 @@ const Home = () => {
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const { user } = useContext(UserContext);
   useEffect(() => {
     populateProducts();
     populateCategories();
   }, []);
 
   const populateProducts = async () => {
-    console.log("Getting user:", user);
     try {
       const productData = await getAllProducts();
       populateProductBiddingDetails(productData.data);

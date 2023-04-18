@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Card, Input, Typography, Button } from "@material-tailwind/react";
 import Base from "../components/Base";
-import { getCurrentUserData } from "../services/auth/auth_service";
-import { getUserById } from "../services/UserService";
 import { getAddressById, updateAddress } from "../services/AddressService";
 import { createNewBid } from "../services/UserBidService";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { UserContext } from "../contexts/UserContext";
 
 const BidNowPage = () => {
   const [address, setAddress] = useState({});
-  const [user, setUser] = useState();
+  const { user } = useContext(UserContext);
   const [amount, setAmount] = useState();
   const { productId } = useParams();
 
@@ -21,12 +20,10 @@ const BidNowPage = () => {
   }, []);
 
   const populateData = async () => {
-    const userData = await getUserById(getCurrentUserData().userId);
     const addressData = await getAddressById(
-      userData.data.id,
-      userData.data.addressId
+      user.id,
+      user.addressId
     );
-    setUser(userData.data);
     setAddress(addressData.data);
     setLoading(false);
   };

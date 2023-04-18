@@ -5,31 +5,28 @@ import {
   Button,
   Textarea,
 } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Base from "../components/Base";
 import ParticleBackground from "../components/ParticleBackground";
-import { getCurrentUserData } from "../services/auth/auth_service";
 import { retrieveAllCategories } from "../services/CategoryService";
 import { uploadImage } from "../services/ImageService";
 import { listProduct } from "../services/ProductService";
 import { createSellerBidding } from "../services/SellerBiddingService";
 import otherParticleConfig from "../components/config/other-particle-config";
+import { UserContext } from "../contexts/UserContext";
 
 const ListProduct = () => {
   const [productData, setProductData] = useState({});
   const [biddingData, setBiddingData] = useState({});
   const [categories, setCategories] = useState([]);
-  const [userData, setUserData] = useState({});
+  const { currentUserData } = useContext(UserContext);
   const [image, setImage] = useState(null);
 
   useEffect(() => {
     populateCategory();
   }, []);
 
-  useEffect(() => {
-    populateUser();
-  }, []);
 
   const populateCategory = async () => {
     try {
@@ -38,10 +35,6 @@ const ListProduct = () => {
     } catch {
       toast.error("Failed to fetch the categories!");
     }
-  };
-
-  const populateUser = () => {
-    setUserData(getCurrentUserData());
   };
 
   const handleFormChange = (event) => {
@@ -70,9 +63,9 @@ const ListProduct = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    listProduct(productData, userData.userId)
+    listProduct(productData, currentUserData.userId)
       .then((data) => {
-        createSellerBidding(biddingData, userData.userId, data.id)
+        createSellerBidding(biddingData, currentUserData.userId, data.id)
           .then(async (biddingResponse) => {
             try {
               const resp = await uploadImage(image, data.sellerId, data.id);

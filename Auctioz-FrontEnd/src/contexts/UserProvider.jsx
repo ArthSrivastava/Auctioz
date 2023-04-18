@@ -7,26 +7,34 @@ const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    setCurrentUserData(getCurrentUserData())
-    populateUser();
+    populateCurrentUserData();
   }, []);
 
-  const populateUser = async () => {
+  const populateCurrentUserData = async () => {
+    const localStorageData = await getCurrentUserData();
+    setCurrentUserData(localStorageData);
+    populateUser(localStorageData);
+  };
+  const populateUser = async (localStorageData) => {
     try {
       if (isLoggedIn()) {
-        const userId = currentUserData.userId;
+        const userId = localStorageData.userId;
         const userData = await getUserById(userId);
-
         setUser(userData.data);
-      } else {
-        return;
       }
     } catch {
       console.log("error in fetching user!");
     }
   };
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        currentUserData,
+        setCurrentUserData,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

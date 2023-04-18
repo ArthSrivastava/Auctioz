@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Base from "../components/Base";
 import ParticleBackground from "../components/ParticleBackground";
 import homeParticleConfig from "../components/config/home-particle-config";
-import { retrieveAllProductsByCategory } from "../services/CategoryService";
 import ProductFeed from "../components/ProductFeed";
 import { toast } from "react-toastify";
 import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
+import { CategoryContext } from "../contexts/CategoryContext";
 const CategoryWiseProduct = () => {
-  const { categoryId } = useParams();  //TODO: handle state globally
+
+  // const { categoryId } = useParams();
+  const { productsByCategory } = useContext(CategoryContext);
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    populateProducts();
+    populateProductBiddingDetails(productsByCategory);
+    // setCategoryIdGlobal(categoryId);
   }, []);
 
-  const populateProducts = async () => {
-    try {
-      const productData = await retrieveAllProductsByCategory(categoryId);
-      populateProductBiddingDetails(productData.data);
-    } catch {
-      toast.error("Some error occurred in loading the products!");
-    }
-  };
 
   const populateProductBiddingDetails = async (productData) => {
     const promises = productData.map(async (product) => {

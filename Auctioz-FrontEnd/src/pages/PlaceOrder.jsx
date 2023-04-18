@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Base from "../components/Base";
 import { getProductById } from "../services/ProductService";
@@ -13,12 +13,14 @@ import {
 import { toast } from "react-toastify";
 import { createOrder, updateOrder } from "../services/PaymentService";
 import { RZP_KEY_ID } from "../services/helper";
+import { UserContext } from "../contexts/UserContext";
 import { getCurrentUserData } from "../services/auth/auth_service";
 
 const PlaceOrder = () => {
   const [product, setProduct] = useState({});
   const [bidding, setBidding] = useState({});
   const { userId, productId } = useParams();
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +29,8 @@ const PlaceOrder = () => {
 
   const populateData = async () => {
     try {
-      if(getCurrentUserData().userId !== userId) {
+      // console.log("currUserData:", user);
+      if(getCurrentUserData().id !== userId) {
           navigate("/");
           return;
       }

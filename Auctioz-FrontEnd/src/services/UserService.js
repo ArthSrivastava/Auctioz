@@ -5,7 +5,7 @@ export const signup = async (data) => {
 };
 
 export const login = async (data) => {
-  return await myAxios.post(LOGIN_URL, data).then((response) => response.data);
+  return await myAxios.post(LOGIN_URL, data);
 };
 
 export const getUserById = async (userId) => {

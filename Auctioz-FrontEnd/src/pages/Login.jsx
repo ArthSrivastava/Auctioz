@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Base from "../components/Base";
 import { useState } from "react";
 import { Card, Input, Typography, Button } from "@material-tailwind/react";
@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import otherParticleConfig from "../components/config/other-particle-config";
 import ParticleBackground from "../components/ParticleBackground";
+import { UserContext } from "../contexts/UserContext";
 
 const Login = () => {
   const [data, setData] = useState({});
+  const { setCurrentUserData } = useContext(UserContext);
   const navigate = useNavigate();
   const handleFormChange = (event) => {
     setData({
@@ -19,15 +21,19 @@ const Login = () => {
     });
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    login(data).then((responseData) => {
-      doLogin(responseData, () => {
+    try {
+     const responseData = await login(data);
+     setCurrentUserData(responseData.data);
+      doLogin(responseData.data, () => {
         navigate("/");
         toast.success("Login Successful!");
       });
-    }).catch((error) => console.log("error:", error));
+    } catch {
+      console.log("error occurred");
+    }
   };
 
   const loginForm = () => {

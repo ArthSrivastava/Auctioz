@@ -8,16 +8,17 @@ import { toast } from "react-toastify";
 import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
 import { CategoryContext } from "../contexts/CategoryContext";
 const CategoryWiseProduct = () => {
-
-  // const { categoryId } = useParams();
-  const { productsByCategory } = useContext(CategoryContext);
+  const { categoryId } = useParams();
+  const { productsByCategory, categoryIdGlobal, setCategoryIdGlobal } = useContext(CategoryContext);
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     populateProductBiddingDetails(productsByCategory);
-    // setCategoryIdGlobal(categoryId);
-  }, []);
+  }, [categoryId]);
 
+  useEffect(() => {
+    setCategoryIdGlobal(categoryId);
+  }, [categoryId]);
 
   const populateProductBiddingDetails = async (productData) => {
     const promises = productData.map(async (product) => {

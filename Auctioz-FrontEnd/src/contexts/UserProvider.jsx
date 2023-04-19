@@ -13,12 +13,15 @@ const UserProvider = ({ children }) => {
   const populateCurrentUserData = async () => {
     const localStorageData = await getCurrentUserData();
     setCurrentUserData(localStorageData);
-    populateUser(localStorageData);
   };
-  const populateUser = async (localStorageData) => {
+
+  useEffect(() => {
+    populateUser();
+  }, [currentUserData]);
+  const populateUser = async () => {
     try {
       if (isLoggedIn()) {
-        const userId = localStorageData.userId;
+        const userId = currentUserData.userId;
         const userData = await getUserById(userId);
         setUser(userData.data);
       }

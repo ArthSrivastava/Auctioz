@@ -39,7 +39,7 @@ const CustomNavbar = () => {
   }, []);
 
   const handleCategoryChange = (event) => {
-    console.log(event.target.value);
+    console.log("hi ", event.target.value);
     setCategoryIdGlobal(event.target.value);
   };
   const navList = (

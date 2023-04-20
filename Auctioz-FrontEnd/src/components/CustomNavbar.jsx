@@ -27,7 +27,7 @@ const CustomNavbar = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const { categories } = useContext(CategoryContext);
   const { user, setCurrentUserData } = useContext(UserContext);
-  const { setCategoryIdGlobal } = useContext(CategoryContext);
+  const { setCategoryIdGlobal, categoryIdGlobal } = useContext(CategoryContext);
   const navigate = useNavigate();
   React.useEffect(() => {
     window.addEventListener(
@@ -39,8 +39,10 @@ const CustomNavbar = () => {
   }, []);
 
   const handleCategoryChange = (event) => {
-    console.log("hi ", event.target.value);
-    setCategoryIdGlobal(event.target.value);
+    if (event.target.value !== undefined) {
+      console.log(event.target.value);
+      setCategoryIdGlobal(event.target.value);
+    }
   };
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -49,6 +51,7 @@ const CustomNavbar = () => {
           mount: { y: 0 },
           unmount: { y: 25 },
         }}
+        onChange={handleCategoryChange}
       >
         <MenuHandler>
           <Typography as="li" variant="h5" className="p-1 font-normal">
@@ -57,7 +60,6 @@ const CustomNavbar = () => {
         </MenuHandler>
         <MenuList
           className="bg-[#212121] text-limeShade border-limeShade"
-          // onChange={handleCategoryChange}
         >
           <MenuItem>
             <Link to="/" value="0">
@@ -70,7 +72,7 @@ const CustomNavbar = () => {
                 <MenuItem
                   key={category.id}
                   value={category.id}
-                  onClick={handleCategoryChange}
+                  // onChange={handleCategoryChange}
                 >
                   <Link
                     to={`/products/categories/${category.id}`}

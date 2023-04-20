@@ -15,7 +15,8 @@ import { createOrder, updateOrder } from "../services/PaymentService";
 import { RZP_KEY_ID } from "../services/helper";
 import { UserContext } from "../contexts/UserContext";
 import { getCurrentUserData } from "../services/auth/auth_service";
-
+import ParticleBackground from "../components/ParticleBackground";
+import otherParticleConfig from "../components/config/other-particle-config";
 const PlaceOrder = () => {
   const [product, setProduct] = useState({});
   const [bidding, setBidding] = useState({});
@@ -29,12 +30,15 @@ const PlaceOrder = () => {
 
   const populateData = async () => {
     try {
-      // console.log("currUserData:", user);
-      if(getCurrentUserData().id !== userId) {
-          navigate("/");
-          return;
+      if (getCurrentUserData().userId != userId) {
+        navigate("/");
+        return;
       }
       const productData = await getProductById(productId);
+      if (productData.data.isSoldOut) {
+        navigate("/");
+        return;
+      }
       const biddingData = await getBiddingDetailsByProductId(
         productData.data.sellerId,
         productId
@@ -79,7 +83,6 @@ const PlaceOrder = () => {
   const payNow = async () => {
     console.log("HI");
     let amt = bidding.currentBidPrice;
-    console.log(amt);
 
     if (amt === "" || amt === null) {
       alert("Amount is required!");
@@ -111,6 +114,7 @@ const PlaceOrder = () => {
           };
           updatePaymentStatusOnServer(updatedOrderStatusData);
           toast.success("Payment successful!");
+          navigate("/");
         },
         notes: {
           address: "Razorpay Corporate Office",
@@ -138,15 +142,16 @@ const PlaceOrder = () => {
 
   //update payment status
   const updatePaymentStatusOnServer = async (updatedOrderStatusData) => {
-      try {
-          const response = await updateOrder(updatedOrderStatusData);
-      } catch {
-          toast.error("Some error occurred on server!");
-      }
-  }
+    try {
+      const response = await updateOrder(updatedOrderStatusData);
+    } catch {
+      toast.error("Some error occurred on server!");
+    }
+  };
 
   return (
     <Base>
+      <ParticleBackground particleOptions={otherParticleConfig} />
       <div className="flex justify-center items-center w-full h-[91vh]">
         {orderDetailsCard()}
       </div>

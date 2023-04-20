@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import Base from "../components/Base";
 import ParticleBackground from "../components/ParticleBackground";
 import homeParticleConfig from "../components/config/home-particle-config";
@@ -7,18 +6,15 @@ import ProductFeed from "../components/ProductFeed";
 import { toast } from "react-toastify";
 import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
 import { CategoryContext } from "../contexts/CategoryContext";
+
 const CategoryWiseProduct = () => {
-  const { categoryId } = useParams();
-  const { productsByCategory, categoryIdGlobal, setCategoryIdGlobal } = useContext(CategoryContext);
+  const { productsByCategory, categoryIdGlobal } = useContext(CategoryContext);
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     populateProductBiddingDetails(productsByCategory);
-  }, [categoryId]);
+  }, [categoryIdGlobal]);
 
-  useEffect(() => {
-    setCategoryIdGlobal(categoryId);
-  }, [categoryId]);
 
   const populateProductBiddingDetails = async (productData) => {
     const promises = productData.map(async (product) => {

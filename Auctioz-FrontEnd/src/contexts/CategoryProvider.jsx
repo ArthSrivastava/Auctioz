@@ -20,7 +20,7 @@ const CategoryProvider = ({ children }) => {
 
   const populateProducts = async () => {
     try {
-        // console.log("cidGlobal:", categoryIdGlobal)
+        console.log("cidGlobal:", categoryIdGlobal)
       const productData = await retrieveAllProductsByCategory(categoryIdGlobal);
       console.log("pro:", productData)
       setProductsByCategory(productData.data);

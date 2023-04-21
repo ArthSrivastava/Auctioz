@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CategoryContext } from "./CategoryContext";
 import { retrieveAllCategories } from "../services/CategoryService";
 import { toast } from "react-toastify";
+import { retrieveAllProductsByCategory } from "../services/CategoryService";
 const CategoryProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [categoryIdGlobal, setCategoryIdGlobal] = useState("");
@@ -20,12 +21,10 @@ const CategoryProvider = ({ children }) => {
 
   const populateProducts = async () => {
     try {
-        console.log("cidGlobal:", categoryIdGlobal)
       const productData = await retrieveAllProductsByCategory(categoryIdGlobal);
-      console.log("pro:", productData)
       setProductsByCategory(productData.data);
     } catch {
-      // toast.error("Some error occurred in loading the products!");
+      toast.error("Some error occurred in loading the products!");
     }
   };
   return (

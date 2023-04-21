@@ -17,7 +17,6 @@ import {
   isLoggedIn,
 } from "../services/auth/auth_service";
 import { toast } from "react-toastify";
-import { retrieveAllCategories } from "../services/CategoryService";
 import CategoryWiseProduct from "../pages/CategoryWiseProduct";
 import { UserContext } from "../contexts/UserContext";
 import { CategoryContext } from "../contexts/CategoryContext";
@@ -26,23 +25,19 @@ const CustomNavbar = () => {
   const [openNav, setOpenNav] = React.useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const { categories } = useContext(CategoryContext);
-  const { user, setCurrentUserData } = useContext(UserContext);
-  const { setCategoryIdGlobal, categoryIdGlobal } = useContext(CategoryContext);
+  const { user } = useContext(UserContext);
+  const { setCategoryIdGlobal } = useContext(CategoryContext);
   const navigate = useNavigate();
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
-    // setCurrentUserData(getCurrentUserData());
     setLoggedIn(isLoggedIn());
   }, []);
 
-  const handleCategoryChange = (event) => {
-    if (event.target.value !== undefined) {
-      console.log(event.target.value);
-      setCategoryIdGlobal(event.target.value);
-    }
+  const handleCategoryClick = (categoryId) => {
+    setCategoryIdGlobal(categoryId);
   };
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -51,16 +46,13 @@ const CustomNavbar = () => {
           mount: { y: 0 },
           unmount: { y: 25 },
         }}
-        onChange={handleCategoryChange}
       >
         <MenuHandler>
           <Typography as="li" variant="h5" className="p-1 font-normal">
             <a className="flex items-center text-limeShade">Shop By Category</a>
           </Typography>
         </MenuHandler>
-        <MenuList
-          className="bg-[#212121] text-limeShade border-limeShade"
-        >
+        <MenuList className="bg-[#212121] text-limeShade border-limeShade">
           <MenuItem>
             <Link to="/" value="0">
               All products
@@ -69,18 +61,15 @@ const CustomNavbar = () => {
           {categories &&
             categories.map((category) => {
               return (
-                <MenuItem
-                  key={category.id}
-                  value={category.id}
-                  // onChange={handleCategoryChange}
+                <Link
+                  to={`/products/categories/${category.id}`}
+                  onClick={() => handleCategoryClick(category.id)}
+                  element={<CategoryWiseProduct />}
                 >
-                  <Link
-                    to={`/products/categories/${category.id}`}
-                    element={<CategoryWiseProduct />}
-                  >
+                  <MenuItem key={category.id} value={category.id}>
                     {category.name}
-                  </Link>
-                </MenuItem>
+                  </MenuItem>
+                </Link>
               );
             })}
         </MenuList>

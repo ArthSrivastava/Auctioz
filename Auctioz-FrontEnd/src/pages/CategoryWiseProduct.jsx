@@ -8,13 +8,12 @@ import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
 import { CategoryContext } from "../contexts/CategoryContext";
 
 const CategoryWiseProduct = () => {
-  const { productsByCategory, categoryIdGlobal } = useContext(CategoryContext);
+  const { productsByCategory } = useContext(CategoryContext);
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     populateProductBiddingDetails(productsByCategory);
-  }, [categoryIdGlobal]);
-
+  }, [productsByCategory]);
 
   const populateProductBiddingDetails = async (productData) => {
     const promises = productData.map(async (product) => {

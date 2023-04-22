@@ -11,6 +11,9 @@ const UserProvider = ({ children }) => {
   }, []);
 
   const populateCurrentUserData = async () => {
+    if(!isLoggedIn()) {
+      return;
+    }
     const localStorageData = await getCurrentUserData();
     setCurrentUserData(localStorageData);
   };
@@ -19,12 +22,13 @@ const UserProvider = ({ children }) => {
     populateUser();
   }, [currentUserData]);
   const populateUser = async () => {
+    if(currentUserData.userId === undefined) {
+      return;
+    }
     try {
-      if (isLoggedIn()) {
         const userId = currentUserData.userId;
         const userData = await getUserById(userId);
         setUser(userData.data);
-      }
     } catch {
       console.log("error in fetching user!");
     }

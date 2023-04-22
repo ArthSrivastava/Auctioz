@@ -14,6 +14,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import CategoryWiseProduct from "./pages/CategoryWiseProduct";
 import UserProvider from "./contexts/UserProvider";
 import CategoryProvider from "./contexts/CategoryProvider";
+import MyBiddings from "./pages/MyBiddings";
 function App() {
   return (
     <BrowserRouter>
@@ -38,6 +39,7 @@ function App() {
                 path="users/:userId/products/:productId/orders/pay"
                 element={<PlaceOrder />}
               />
+              <Route path="mybiddings" element={<MyBiddings />} />
             </Route>
           </Routes>
         </CategoryProvider>

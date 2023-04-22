@@ -20,6 +20,9 @@ const CategoryProvider = ({ children }) => {
   }, [categoryIdGlobal]);
 
   const populateProducts = async () => {
+    if(categoryIdGlobal === "") {
+      return;
+    }
     try {
       const productData = await retrieveAllProductsByCategory(categoryIdGlobal);
       setProductsByCategory(productData.data);

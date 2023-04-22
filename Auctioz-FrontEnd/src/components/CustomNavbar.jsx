@@ -49,7 +49,7 @@ const CustomNavbar = () => {
       >
         <MenuHandler>
           <Typography as="li" variant="h5" className="p-1 font-normal">
-            <a className="flex items-center text-limeShade">Shop By Category</a>
+            <a className="flex items-center text-limeShade cursor-pointer">Shop By Category</a>
           </Typography>
         </MenuHandler>
         <MenuList className="bg-[#212121] text-limeShade border-limeShade">
@@ -65,8 +65,9 @@ const CustomNavbar = () => {
                   to={`/products/categories/${category.id}`}
                   onClick={() => handleCategoryClick(category.id)}
                   element={<CategoryWiseProduct />}
+                  key={category.id}
                 >
-                  <MenuItem key={category.id} value={category.id}>
+                  <MenuItem value={category.id}>
                     {category.name}
                   </MenuItem>
                 </Link>
@@ -79,9 +80,9 @@ const CustomNavbar = () => {
         variant="h5"
         className="p-1 font-normal text-limeShade"
       >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
+        <Link to="/mybiddings" className="flex items-center">
+          My Biddings
+        </Link>
       </Typography>
       <Typography
         as="li"

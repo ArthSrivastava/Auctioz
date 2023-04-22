@@ -73,6 +73,14 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
     }
 
     @Override
+    public List<BiddingHistoryDto> getAllBiddingsOfUser(String userId) {
+        return biddingHistoryRepo.findAllByUserId(userId)
+                .stream()
+                .map(biddingHistory -> modelMapper.map(biddingHistory, BiddingHistoryDto.class))
+                .toList();
+    }
+
+    @Override
     public List<BiddingHistoryDto> getAllBidsOfProductByUserId(String productId, String userId) {
         return biddingHistoryRepo.findAllByProductIdAndUserId(productId, userId)
                 .stream()

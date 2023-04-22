@@ -10,4 +10,5 @@ public interface BiddingHistoryRepo extends MongoRepository<BiddingHistory, Stri
     Optional<BiddingHistory> findBiddingHistoryByProductIdAndUserIdAndId(String productId, String userId, String bidId);
     List<BiddingHistory> findAllByProductId(String productId);
     List<BiddingHistory> findAllByProductIdAndUserId(String productId, String userId);
+    List<BiddingHistory> findAllByUserId(String userId);
 }

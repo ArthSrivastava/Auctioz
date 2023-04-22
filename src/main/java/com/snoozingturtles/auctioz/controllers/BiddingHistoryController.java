@@ -45,6 +45,11 @@ public class BiddingHistoryController {
                                                                                    @PathVariable String bidId) {
         return ResponseEntity.ok(biddingHistoryService.getBidOfProductByUserIdAndBidId(productId, userId, bidId));
     }
+
+    @GetMapping("/users/{userId}/bids")
+    public ResponseEntity<List<BiddingHistoryDto>> getAllBidsByUserId(@PathVariable String userId) {
+        return ResponseEntity.ok(biddingHistoryService.getAllBiddingsOfUser(userId));
+    }
     @PutMapping("/users/{userId}/products/{productId}/bids/{bidId}")
     public ResponseEntity<ApiResponse> updateBidOfUser(@PathVariable String userId,
                                                        @PathVariable String productId,

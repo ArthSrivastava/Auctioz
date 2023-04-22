@@ -19,7 +19,6 @@ public class ProductDto {
     private String biddingId;
 
     //Selected from front-end
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String categoryId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

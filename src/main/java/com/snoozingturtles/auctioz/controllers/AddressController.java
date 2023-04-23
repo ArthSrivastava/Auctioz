@@ -3,6 +3,7 @@ package com.snoozingturtles.auctioz.controllers;
 import com.snoozingturtles.auctioz.dto.AddressDto;
 import com.snoozingturtles.auctioz.payloads.ApiResponse;
 import com.snoozingturtles.auctioz.services.AddressService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class AddressController {
     private final AddressService addressService;
     @PostMapping("/{userId}/addresses")
     public ResponseEntity<ApiResponse> createAddress(@PathVariable String userId,
-                                                     @RequestBody AddressDto addressDto) {
+                                                     @Valid @RequestBody AddressDto addressDto) {
         AddressDto address = addressService.createAddress(userId, addressDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{addressId}")
                 .buildAndExpand(address.getId()).toUri();

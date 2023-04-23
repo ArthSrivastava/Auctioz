@@ -3,6 +3,7 @@ package com.snoozingturtles.auctioz.controllers;
 import com.snoozingturtles.auctioz.dto.BiddingDto;
 import com.snoozingturtles.auctioz.payloads.ApiResponse;
 import com.snoozingturtles.auctioz.services.BiddingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class BiddingController {
     @PostMapping("/{sellerId}/products/{productId}/biddings")
     public ResponseEntity<ApiResponse> createBidding(@PathVariable String sellerId,
                                                      @PathVariable String productId,
-                                                     @RequestBody BiddingDto biddingDto) {
+                                                     @Valid @RequestBody BiddingDto biddingDto) {
         biddingService.createBidding(productId, sellerId, biddingDto);
         return new ResponseEntity<>(
                 ApiResponse.builder()

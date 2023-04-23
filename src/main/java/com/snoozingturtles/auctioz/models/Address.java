@@ -20,5 +20,5 @@ public class Address {
     private String line2;
     private String city;
     private String state;
-    private int pincode;
+    private String pincode;
 }

@@ -48,7 +48,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendSimpleEmail() {
         List<BiddingDto> biddingDtoList = biddingService.getAllBiddings();
         List<BiddingDto> winningBids = biddingDtoList.stream()
-                .filter(biddingDto -> biddingDto.getDeadline().isBefore(LocalDateTime.now())
+                .filter(biddingDto -> LocalDateTime.parse(biddingDto.getDeadline()).isBefore(LocalDateTime.now())
                             && !productService.getProductById(biddingDto.getProductId()).isSoldOut())
                 .toList();
         List<String> bidWinnerEmailList = winningBids.stream()

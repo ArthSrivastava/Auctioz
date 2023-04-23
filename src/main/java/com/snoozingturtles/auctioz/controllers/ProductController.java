@@ -3,6 +3,7 @@ package com.snoozingturtles.auctioz.controllers;
 import com.snoozingturtles.auctioz.dto.ProductDto;
 import com.snoozingturtles.auctioz.payloads.ApiResponse;
 import com.snoozingturtles.auctioz.services.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class ProductController {
     private final ProductService productService;
     @PostMapping("/sellers/{sellerId}/products")
     public ResponseEntity<ProductDto> createProduct(@PathVariable String sellerId,
-                                                     @RequestBody ProductDto productDto) {
+                                                     @Valid @RequestBody ProductDto productDto) {
         ProductDto product = productService.createProduct(sellerId, productDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{productId}")
                 .buildAndExpand(product.getId()).toUri();

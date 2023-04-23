@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class BiddingHistory {
     private String id;
     private String userId;
-    private long biddingAmount;
+    private String biddingAmount;
     private String productId;
-    private LocalDateTime timestamp;
+    private String timestamp;
 }

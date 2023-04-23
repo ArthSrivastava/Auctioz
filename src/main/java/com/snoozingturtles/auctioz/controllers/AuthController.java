@@ -6,6 +6,7 @@ import com.snoozingturtles.auctioz.exceptions.LoginException;
 import com.snoozingturtles.auctioz.payloads.JwtAuthRequest;
 import com.snoozingturtles.auctioz.payloads.TokenAuthResponse;
 import com.snoozingturtles.auctioz.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class AuthController {
     private final JwtTokenHelper jwtTokenHelper;
 
     @PostMapping("/login")
-    public ResponseEntity<TokenAuthResponse> generateToken(@RequestBody JwtAuthRequest jwtAuthRequest) {
+    public ResponseEntity<TokenAuthResponse> generateToken(@Valid @RequestBody JwtAuthRequest jwtAuthRequest) {
         String email = jwtAuthRequest.getEmail();
         String password = jwtAuthRequest.getPassword();
         this.authenticate(email, password);

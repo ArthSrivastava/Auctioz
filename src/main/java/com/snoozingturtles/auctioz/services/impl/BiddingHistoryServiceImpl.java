@@ -33,7 +33,7 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
 
         biddingHistoryDto.setProductId(productId);
         biddingHistoryDto.setUserId(userId);
-        biddingHistoryDto.setTimestamp(LocalDateTime.now());
+        biddingHistoryDto.setTimestamp(LocalDateTime.now().toString());
         biddingHistoryRepo.save(modelMapper.map(biddingHistoryDto, BiddingHistory.class));
     }
 
@@ -52,7 +52,7 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
 
         BiddingHistoryDto biddingHistory = getBidOfProductByUserIdAndBidId(productId, userId, bidId);
         biddingHistory.setBiddingAmount(biddingHistoryDto.getBiddingAmount());
-        biddingHistory.setTimestamp(LocalDateTime.now());
+        biddingHistory.setTimestamp(LocalDateTime.now().toString());
         biddingHistoryRepo.save(modelMapper.map(biddingHistory, BiddingHistory.class));
     }
 
@@ -101,8 +101,10 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
         biddingHistoryRepo.delete(biddingHistory);
     }
 
-    private static void checkValidBidPrice(long bidPrice, long currPrice) {
-        if (bidPrice <= currPrice) {
+    private static void checkValidBidPrice(String bidPrice, String currPrice) {
+        long numBidPrice = Long.parseLong(bidPrice);
+        long numCurrPrice = Long.parseLong(currPrice);
+        if (numBidPrice <= numCurrPrice) {
             throw new InvalidBidException("Place a higher bid than current bid!");
         }
     }

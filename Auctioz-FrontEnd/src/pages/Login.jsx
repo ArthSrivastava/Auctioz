@@ -9,9 +9,13 @@ import { toast } from "react-toastify";
 import otherParticleConfig from "../components/config/other-particle-config";
 import ParticleBackground from "../components/ParticleBackground";
 import { UserContext } from "../contexts/UserContext";
+import { serverSideErrors, validateEmail } from "../services/ValidationMethods";
 
 const Login = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
   const { setCurrentUserData } = useContext(UserContext);
   const navigate = useNavigate();
   const handleFormChange = (event) => {
@@ -21,19 +25,38 @@ const Login = () => {
     });
   };
 
+  //validate fields
+  const validateData = () => {
+    let errMessage = "";
+    if (!validateEmail(data.email)) {
+      errMessage = "Email should be in correct format!";
+    } else if (data.password.length < 3 || data.password.length > 30) {
+      errMessage = "Password must be 3 to 30 characters long!";
+    }
+    if (errMessage !== "") {
+      toast.error(errMessage);
+    }
+    return errMessage === "";
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-
+    // if(!validateData()) {
+    //   return;
+    // }
     try {
-     const responseData = await login(data);
-     setCurrentUserData(responseData.data);
+      const responseData = await login(data);
+      setCurrentUserData(responseData.data);
       doLogin(responseData.data, () => {
         navigate("/");
         toast.success("Login Successful!");
       });
-    } catch {
-      console.log("error occurred");
-    }
+    } catch (error) {
+      if (error.response.status == 401)
+        toast.error(error.response.data.message);
+      else 
+        serverSideErrors(error);
+      }
   };
 
   const loginForm = () => {
@@ -79,7 +102,7 @@ const Login = () => {
   return (
     <Base>
       <div className="h-[91vh] flex justify-center items-center">
-      <ParticleBackground particleOptions={otherParticleConfig}/>
+        <ParticleBackground particleOptions={otherParticleConfig} />
         {loginForm()}
       </div>
     </Base>

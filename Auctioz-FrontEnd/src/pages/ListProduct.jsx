@@ -15,13 +15,21 @@ import { listProduct } from "../services/ProductService";
 import { createSellerBidding } from "../services/SellerBiddingService";
 import otherParticleConfig from "../components/config/other-particle-config";
 import { UserContext } from "../contexts/UserContext";
+import { regexValidation, serverSideErrors } from "../services/ValidationMethods";
 
 const ListProduct = () => {
-  const [productData, setProductData] = useState({});
-  const [biddingData, setBiddingData] = useState({});
+  const [productData, setProductData] = useState({
+    name: "",
+    description: "",
+    categoryId: ""
+  });
+  const [biddingData, setBiddingData] = useState({
+    startBidPrice: "",
+    deadline: ""
+  });
   const [categories, setCategories] = useState([]);
   const { currentUserData } = useContext(UserContext);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     populateCategory();
@@ -60,9 +68,41 @@ const ListProduct = () => {
     });
   };
 
+  const validateProductDataObj = () => {
+    let errMessage = "";
+    if (productData.name.length < 3 || productData.name.length > 40) {
+      errMessage = "Name must be of length 3 to 40 characters!";
+    } else if (productData.description.length < 15 || productData.description.length > 200) {
+      errMessage = "Description must be 15 to 200 characters long!";
+    } else if(productData.categoryId === "") {
+      errMessage = "Select a category!";
+    } else if(image === "") {
+      errMessage = "Select an image for the product!";
+    }
+    if (errMessage !== "") {
+      toast.error(errMessage);
+    }
+    return errMessage === "";
+  };
+
+  const validateBiddingDataObj = () => {
+    let errMessage = "";
+    if (!regexValidation(biddingData.startBidPrice, /^\d+$/)) {
+      errMessage = "Enter valid start bid price";
+    } else if (!regexValidation(biddingData.deadline, /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.(\d{3})$/)) {
+      errMessage = "Enter valid deadline in ISO8601 date format!";
+    }
+    if (errMessage !== "") {
+      toast.error(errMessage);
+    }
+    return errMessage === "";
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
+    if (!validateProductDataObj() || !validateBiddingDataObj()) {
+      return;
+    }
     listProduct(productData, currentUserData.userId)
       .then((data) => {
         createSellerBidding(biddingData, currentUserData.userId, data.id)
@@ -74,9 +114,9 @@ const ListProduct = () => {
             }
             toast.success("Product listing successful!");
           })
-          .catch((error) => toast.error("Some error occurred!"));
+          .catch((error) => serverSideErrors(error));
       })
-      .catch((error) => toast.error("Product data error!"));
+      .catch((error) => serverSideErrors(error));
   };
 
   const listingForm = () => {

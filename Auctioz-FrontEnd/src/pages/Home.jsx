@@ -1,24 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Base from "../components/Base";
-import ProductCard from "../components/ProductCard";
 import { getAllProducts } from "../services/ProductService";
 import { getBiddingDetailsByProductId } from "../services/SellerBiddingService";
-import ProductDetails from "./ProductDetails";
 import ParticleBackground from "../components/ParticleBackground";
 import homeParticleConfig from "../components/config/home-particle-config";
 import { retrieveAllCategories } from "../services/CategoryService";
 import ProductFeed from "../components/ProductFeed";
-import { UserContext } from "../contexts/UserContext";
 
 const Home = () => {
   const [fullProductDetails, setFullProductDetails] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
   useEffect(() => {
     populateProducts();
-    populateCategories();
   }, []);
 
   const populateProducts = async () => {
@@ -30,10 +24,7 @@ const Home = () => {
     }
   };
 
-  const populateCategories = async () => {
-    const categoryData = await retrieveAllCategories();
-    setCategories(categoryData.data);
-  }
+  
 
   const populateProductBiddingDetails = async (productData) => {
     const promises = productData.map(async (product) => {
@@ -60,7 +51,7 @@ const Home = () => {
   return (
     <Base>
     <ParticleBackground particleOptions={homeParticleConfig}/>
-      <div className="p-10 grid grid-cols-4 gap-4">
+      <div className="p-10 grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-rows- gap-4 ">
         {loading ? (
           <h1 className="text-white">Loading...</h1>
         ) : (

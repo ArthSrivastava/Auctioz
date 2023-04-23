@@ -6,10 +6,21 @@ import { createAddress } from "../services/AddressService";
 import { toast } from "react-toastify";
 import otherParticleConfig from "../components/config/other-particle-config";
 import ParticleBackground from "../components/ParticleBackground";
+import { regexValidation, serverSideErrors, validateEmail } from "../services/ValidationMethods";
 const Signup = () => {
   //store the signup form data
-  const [data, setData] = useState({});
-  const [addressData, setAddressData] = useState({});
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [addressData, setAddressData] = useState({
+    line1: "",
+    line2: "",
+    city: "",
+    state: "",
+    pincode: "",
+  });
 
   //handle fields like email, name, password
   const handleFormChange = (event) => {
@@ -27,22 +38,63 @@ const Signup = () => {
     });
   };
 
+ 
+
+  //validate user data fields
+  const validateDataObj = () => {
+    let errMessage = "";
+    if (data.name === "" || data.name.length < 3 || data.name.length > 40) {
+      errMessage = "Name must be of length 3 to 40 characters!";
+    } else if (data.email === "" || !validateEmail(data.email)) {
+      errMessage = "Email should be in correct format!";
+    } else if (data.password.length < 3 || data.password.length > 30) {
+      errMessage = "Password must be 3 to 30 characters long!";
+    }
+    if (errMessage !== "") {
+      toast.error(errMessage);
+    }
+    return errMessage === "";
+  };
+
+  // validate user address fields
+  const validateAddressObj = () => {
+    let errMessage = "";
+    if (addressData.line1.length < 8 || addressData.line1.length > 60) {
+      errMessage = "Address line 1 must be of length 3 to 40 characters!";
+    } else if (addressData.city.length < 2 || addressData.city.length > 30) {
+      errMessage = "City name must be between 2 to 30 characters long!";
+    } else if (addressData.state.length < 3 || addressData.state.length > 30) {
+      errMessage = "State must be 3 to 30 characters long!";
+    } else if (!regexValidation(addressData.pincode, /^[1-9][0-9]{5}$/)) {
+      errMessage = "Enter a valid pincode!";
+    }
+    if (errMessage !== "") {
+      toast.error(errMessage);
+    }
+    return errMessage === "";
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
+
+    if (!validateDataObj() || !validateAddressObj()) {
+      return;
+    }
+
     signup(data)
       .then((responseData) => {
         updateAddress(responseData);
         toast.success("User registered successfully!");
       })
-      .catch((error) => toast.error("Some error occurred!"));
+      .catch((error) => serverSideErrors(error));
   };
+
+  
 
   const updateAddress = (responseData) => {
     createAddress(addressData, responseData.id)
-      .then((data) => {
-        console.log("address data:", data);
-      })
-      .catch((error) => console.log(error));
+      .then((data) => {})
+      .catch((error) => serverSideErrors(error));
   };
 
   const signupForm = () => {
@@ -140,7 +192,7 @@ const Signup = () => {
   return (
     <Base>
       <div className="h-[91vh] flex justify-center items-center">
-      <ParticleBackground particleOptions={otherParticleConfig}/>
+        <ParticleBackground particleOptions={otherParticleConfig} />
         {signupForm()}
       </div>
     </Base>

@@ -210,9 +210,6 @@ const CustomNavbar = () => {
         </div>
         <MobileNav open={openNav}>
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Buy Now</span>
-          </Button>
         </MobileNav>
       </Navbar>
     </>

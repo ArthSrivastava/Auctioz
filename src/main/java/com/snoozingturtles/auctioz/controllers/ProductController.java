@@ -6,6 +6,7 @@ import com.snoozingturtles.auctioz.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,6 +27,7 @@ public class ProductController {
         return ResponseEntity.created(uri).body(product);
     }   
     @GetMapping("/sellers/{sellerId}/products")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #sellerId)")
     public ResponseEntity<List<ProductDto>> getAllProductsBySellerId(@PathVariable String sellerId) {
         return ResponseEntity.ok(productService.getAllProductsBySellerId(sellerId));
     }
@@ -48,6 +50,7 @@ public class ProductController {
     }
 
     @PutMapping("/sellers/{sellerId}/products/{productId}")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #sellerId)")
     public ResponseEntity<ApiResponse> updateProduct(@PathVariable String sellerId,
                                                      @PathVariable String productId,
                                                      @RequestBody ProductDto productDto) {
@@ -61,6 +64,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{sellerId}/products/{productId}")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #sellerId)")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable String sellerId,
                                                      @PathVariable String productId) {
         productService.deleteProduct(productId, sellerId);

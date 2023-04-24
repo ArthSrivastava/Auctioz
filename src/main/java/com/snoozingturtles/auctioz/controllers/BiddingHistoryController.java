@@ -6,6 +6,7 @@ import com.snoozingturtles.auctioz.services.BiddingHistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class BiddingHistoryController {
     private final BiddingHistoryService biddingHistoryService;
 
     @PostMapping("/users/{userId}/products/{productId}/bids")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #userId)")
     public ResponseEntity<ApiResponse> createBid(@PathVariable String userId,
                                                  @PathVariable String productId,
                                                  @RequestBody BiddingHistoryDto biddingHistoryDto) {
@@ -51,6 +53,7 @@ public class BiddingHistoryController {
         return ResponseEntity.ok(biddingHistoryService.getAllBiddingsOfUser(userId));
     }
     @PutMapping("/users/{userId}/products/{productId}/bids/{bidId}")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #userId)")
     public ResponseEntity<ApiResponse> updateBidOfUser(@PathVariable String userId,
                                                        @PathVariable String productId,
                                                        @PathVariable String bidId,
@@ -65,6 +68,7 @@ public class BiddingHistoryController {
     }
 
     @DeleteMapping("/users/{userId}/products/{productId}/bids/{bidId}")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #userId)")
     public ResponseEntity<ApiResponse> deleteBidByProductIdAndUserIdAndBidId(@PathVariable String userId,
                                                                              @PathVariable String productId,
                                                                              @PathVariable String bidId) {

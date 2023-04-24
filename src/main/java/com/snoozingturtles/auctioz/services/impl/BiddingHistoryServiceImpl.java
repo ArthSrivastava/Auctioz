@@ -33,7 +33,7 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
 
         biddingHistoryDto.setProductId(productId);
         biddingHistoryDto.setUserId(userId);
-        biddingHistoryDto.setTimestamp(LocalDateTime.now().toString());
+        biddingHistoryDto.setTimestamp(LocalDateTime.now());
         biddingHistoryRepo.save(modelMapper.map(biddingHistoryDto, BiddingHistory.class));
     }
 
@@ -52,7 +52,7 @@ public class BiddingHistoryServiceImpl implements BiddingHistoryService {
 
         BiddingHistoryDto biddingHistory = getBidOfProductByUserIdAndBidId(productId, userId, bidId);
         biddingHistory.setBiddingAmount(biddingHistoryDto.getBiddingAmount());
-        biddingHistory.setTimestamp(LocalDateTime.now().toString());
+        biddingHistory.setTimestamp(LocalDateTime.now());
         biddingHistoryRepo.save(modelMapper.map(biddingHistory, BiddingHistory.class));
     }
 

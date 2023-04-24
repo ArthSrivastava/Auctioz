@@ -33,6 +33,8 @@ public class MyOrderServiceImpl implements MyOrderService {
     private String keySecret;
     @Override
     public MyOrderDto createOrder(MyOrderDto myOrderDto) throws RazorpayException {
+        System.out.println("\n\n\n\nKey Id:" + keyId + "\n\n\n");
+        System.out.println("\n\n\n\nKey secret:" + keySecret + "\n\n\n");
         RazorpayClient razorpayClient = new RazorpayClient(keyId, keySecret);
         JSONObject orderRequest = new JSONObject();
 

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class BiddingController {
     private final BiddingService biddingService;
 
     @PostMapping("/{sellerId}/products/{productId}/biddings")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #sellerId)")
     public ResponseEntity<ApiResponse> createBidding(@PathVariable String sellerId,
                                                      @PathVariable String productId,
                                                      @Valid @RequestBody BiddingDto biddingDto) {
@@ -35,6 +37,7 @@ public class BiddingController {
     }
 
     @PutMapping("/{sellerId}/products/{productId}/biddings")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #sellerId)")
     public ResponseEntity<ApiResponse> updateBidding(@PathVariable String sellerId,
                                                      @PathVariable String productId,
                                                      @RequestBody BiddingDto biddingDto) {
@@ -48,6 +51,7 @@ public class BiddingController {
     }
 
     @DeleteMapping("/{sellerId}/products/{productId}/biddings")
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #sellerId)")
     public ResponseEntity<ApiResponse> deleteBidding(@PathVariable String sellerId,
                                                      @PathVariable String productId) {
         biddingService.deleteBidding(productId, sellerId);

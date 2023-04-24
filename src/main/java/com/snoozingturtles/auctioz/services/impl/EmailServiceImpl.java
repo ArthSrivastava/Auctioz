@@ -48,8 +48,10 @@ public class EmailServiceImpl implements EmailService {
     public void sendSimpleEmail() {
         List<BiddingDto> biddingDtoList = biddingService.getAllBiddings();
         List<BiddingDto> winningBids = biddingDtoList.stream()
-                .filter(biddingDto -> LocalDateTime.parse(biddingDto.getDeadline()).isBefore(LocalDateTime.now())
-                            && !productService.getProductById(biddingDto.getProductId()).isSoldOut())
+                .filter(biddingDto ->
+                        biddingDto.getDeadline().isBefore(LocalDateTime.now())
+                            && !productService.getProductById(biddingDto.getProductId()).isSoldOut()
+                )
                 .toList();
         List<String> bidWinnerEmailList = winningBids.stream()
                 .map(BiddingDto::getCurrentBidderId)
@@ -66,11 +68,6 @@ public class EmailServiceImpl implements EmailService {
             simpleMailMessage.setTo(email);
             simpleMailMessage.setSubject(subject);
 
-            /*
-            TODO:
-              A new web-page (made using React) will open on clicking the link where the users have to pay the required amount,
-              and it will send a request to the /orders endpoint on the backend to save details about the order
-            */
             BiddingDto bid = winningBids.get(i);
             String body = String.format("Congratulations on winning the bid! Here's " +
                     "your link to purchase the product: %s", BASE_URL + "/users/" +

@@ -18,5 +18,5 @@ public class BiddingHistory {
     private String userId;
     private String biddingAmount;
     private String productId;
-    private String timestamp;
+    private LocalDateTime timestamp;
 }

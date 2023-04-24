@@ -6,6 +6,7 @@ import com.snoozingturtles.auctioz.payloads.ApiResponse;
 import com.snoozingturtles.auctioz.services.MyOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,12 +19,14 @@ public class MyOrderController {
     private final MyOrderService myOrderService;
 
     @PostMapping
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #myOrderDto.userId)")
     public ResponseEntity<MyOrderDto> createOrder(@RequestBody MyOrderDto myOrderDto) throws RazorpayException {
         MyOrderDto order = myOrderService.createOrder(myOrderDto);
         return ResponseEntity.ok(order);
     }
 
     @PutMapping
+    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #myOrderDto.userId)")
     public ResponseEntity<ApiResponse> updateOrder(@RequestBody MyOrderDto myOrderDto) {
         myOrderService.updatePaymentSuccess(myOrderDto);
         return ResponseEntity.ok(

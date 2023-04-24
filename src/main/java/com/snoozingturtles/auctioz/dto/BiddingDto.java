@@ -1,8 +1,11 @@
 package com.snoozingturtles.auctioz.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class BiddingDto {
@@ -15,7 +18,5 @@ public class BiddingDto {
     private String startBidPrice;
     private String currentBidPrice;
     private String currentBidderId;
-
-    @Pattern(regexp = "^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3})$", message = "Enter valid deadline in ISO8601 date format!")
-    private String deadline;
+    private LocalDateTime deadline;
 }

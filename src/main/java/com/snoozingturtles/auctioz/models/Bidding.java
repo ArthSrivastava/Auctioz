@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "bidding_details")
 @Getter
 @Setter
@@ -19,5 +21,5 @@ public class Bidding {
     private String startBidPrice;
     private String currentBidPrice;
     private String currentBidderId;
-    private String deadline;
+    private LocalDateTime deadline;
 }

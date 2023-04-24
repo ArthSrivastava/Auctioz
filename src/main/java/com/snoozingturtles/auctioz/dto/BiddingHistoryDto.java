@@ -14,5 +14,5 @@ public class BiddingHistoryDto {
     private String productId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String timestamp;
+    private LocalDateTime timestamp;
 }

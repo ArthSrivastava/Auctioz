@@ -12,7 +12,7 @@ import {
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 import { createOrder, updateOrder } from "../services/PaymentService";
-import { RZP_KEY_ID } from "../services/helper";
+import { BASE_URL, RZP_KEY_ID } from "../services/helper";
 import { UserContext } from "../contexts/UserContext";
 import { getCurrentUserData } from "../services/auth/auth_service";
 import ParticleBackground from "../components/ParticleBackground";
@@ -57,7 +57,7 @@ const PlaceOrder = () => {
           <Typography variant="h5">
             Congratulations on winning the bid! Pay now for your order!
           </Typography>
-          <img src="/src/assets/iphone14.webp" alt="product-picture" />
+          <img src={BASE_URL + "/images/" + product.imageName} alt="product-picture" />
         </CardHeader>
         <CardBody className="text-center">
           <Typography variant="h4" color="blue-gray" className="mb-2">
@@ -81,7 +81,6 @@ const PlaceOrder = () => {
   };
 
   const payNow = async () => {
-    console.log("HI");
     let amt = bidding.currentBidPrice;
 
     if (amt === "" || amt === null) {
@@ -97,7 +96,6 @@ const PlaceOrder = () => {
     //create order
     try {
       const res = await createOrder(orderData);
-      console.log("data:", res.data);
       const options = {
         key: RZP_KEY_ID,
         amount: res.data.amount,
@@ -125,14 +123,7 @@ const PlaceOrder = () => {
       };
       const rzp1 = new Razorpay(options);
       rzp1.on("payment.failed", function (response) {
-        console.log(response.error.code);
-        console.log(response.error.description);
-        console.log(response.error.source);
-        console.log(response.error.step);
-        console.log(response.error.reason);
-        console.log(response.error.metadata.order_id);
-        console.log(response.error.metadata.payment_id);
-        alert("Payment failed!");
+        toast.error("Payment failed!");
       });
       rzp1.open();
     } catch {

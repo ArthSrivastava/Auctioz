@@ -12,7 +12,7 @@ public class ProductDto {
     @Size(min = 3, max = 40, message = "Name should be between 3 to 40 characters long!")
     private String name;
 
-    @Size(min = 15, max = 200, message = "Description should be between 15 to 200 characters long!")
+    @Size(min = 15, max = 2000, message = "Description should be between 15 to 200 characters long!")
     private String description;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String imageName;

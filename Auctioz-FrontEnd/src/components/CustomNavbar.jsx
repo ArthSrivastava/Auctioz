@@ -49,7 +49,9 @@ const CustomNavbar = () => {
       >
         <MenuHandler>
           <Typography as="li" variant="h5" className="p-1 font-normal">
-            <a className="flex items-center text-limeShade cursor-pointer">Shop By Category</a>
+            <a className="flex items-center text-limeShade cursor-pointer">
+              Shop By Category
+            </a>
           </Typography>
         </MenuHandler>
         <MenuList className="bg-[#212121] text-limeShade border-limeShade">
@@ -67,9 +69,7 @@ const CustomNavbar = () => {
                   element={<CategoryWiseProduct />}
                   key={category.id}
                 >
-                  <MenuItem value={category.id}>
-                    {category.name}
-                  </MenuItem>
+                  <MenuItem value={category.id}>{category.name}</MenuItem>
                 </Link>
               );
             })}
@@ -109,14 +109,14 @@ const CustomNavbar = () => {
         color="transparent"
       >
         <div className="flex items-center justify-between text-blue-gray-900">
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 cursor-pointer py-1.5 font-medium text-limeShade"
-            variant="h3"
-          >
-            <Link to="/">Auctioz</Link>
-          </Typography>
+          <Link to="/">
+            <Typography
+              className="mr-4 cursor-pointer py-1.5 font-medium text-limeShade"
+              variant="h3"
+            >
+              Auctioz
+            </Typography>
+          </Link>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             {/* <Button
@@ -208,9 +208,7 @@ const CustomNavbar = () => {
             </IconButton>
           </div>
         </div>
-        <MobileNav open={openNav}>
-          {navList}
-        </MobileNav>
+        <MobileNav open={openNav}>{navList}</MobileNav>
       </Navbar>
     </>
   );

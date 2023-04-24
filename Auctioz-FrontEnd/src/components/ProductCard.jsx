@@ -16,9 +16,9 @@ const ProductCard = ({ product }) => {
           className="mb-2 h-[20vh] w-full object-contain"
         />
         <Typography variant="h3" className="mb-2">
-          {product.name}
+          {product.name.length > 16 ? (product.name.substring(0, 16) + "...") : product.name}
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" className="">
           {product.description.substring(0, 30)}....
         </Typography>
       </CardBody>
@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
             Current Bid Price
           </Typography>
           <Typography variant="paragraph" className="text-md font-bold">
-            {product.bidInfo && product.bidInfo.currentBidPrice}$
+            {product.bidInfo && (product.bidInfo.currentBidPrice ? product.bidInfo.currentBidPrice : 0)}$
           </Typography>
         </div>
       </CardFooter>

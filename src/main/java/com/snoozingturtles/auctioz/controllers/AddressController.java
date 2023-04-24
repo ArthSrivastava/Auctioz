@@ -19,7 +19,6 @@ import java.util.List;
 public class AddressController {
     private final AddressService addressService;
     @PostMapping("/{userId}/addresses")
-    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #userId)")
     public ResponseEntity<ApiResponse> createAddress(@PathVariable String userId,
                                                      @Valid @RequestBody AddressDto addressDto) {
         AddressDto address = addressService.createAddress(userId, addressDto);

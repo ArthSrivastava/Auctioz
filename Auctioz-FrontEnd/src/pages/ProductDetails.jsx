@@ -138,7 +138,7 @@ const ProductDetails = () => {
   };
   const detailCard = () => {
     return (
-      <div className="h-[100vh] w-[70vw] bg-white flex flex-col gap-4 mt-3">
+      <div className="h-full min-h-[91vh] w-[70vw] bg-white flex flex-col gap-4 mt-3">
         <div className="grid grid-cols-3 gap-8 p-4">
           <div className="col-span-2">
             <img
@@ -156,13 +156,7 @@ const ProductDetails = () => {
 
           <Typography variant="h5" className="font-thin">
             <p className="mx-3">
-              {product && product.description}, Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Iure maiores id molestiae doloribus
-              asperiores tenetur nesciunt repudiandae. Est asperiores qui
-              delectus nam ipsa sapiente iusto necessitatibus fuga, culpa,
-              excepturi, suscipit a accusantium iste eaque quia sequi
-              voluptates. Corporis, voluptas maxime omnis similique tempora
-              laborum tenetur dolor inventore explicabo eos quidem.
+              {product && product.description}
             </p>
           </Typography>
         </div>

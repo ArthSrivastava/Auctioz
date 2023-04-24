@@ -26,7 +26,6 @@ public class MyOrderController {
     }
 
     @PutMapping
-    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #myOrderDto.userId)")
     public ResponseEntity<ApiResponse> updateOrder(@RequestBody MyOrderDto myOrderDto) {
         myOrderService.updatePaymentSuccess(myOrderDto);
         return ResponseEntity.ok(

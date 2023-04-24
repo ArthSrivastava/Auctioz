@@ -53,7 +53,6 @@ const ListProduct = () => {
   };
 
   const handleFileChange = (event) => {
-    console.log("image:", event.target.files[0]);
     if (!event.target.files[0].type.startsWith("image")) {
       toast.error("Please select an image file!");
       return;
@@ -72,8 +71,8 @@ const ListProduct = () => {
     let errMessage = "";
     if (productData.name.length < 3 || productData.name.length > 40) {
       errMessage = "Name must be of length 3 to 40 characters!";
-    } else if (productData.description.length < 15 || productData.description.length > 200) {
-      errMessage = "Description must be 15 to 200 characters long!";
+    } else if (productData.description.length < 15 || productData.description.length > 2000) {
+      errMessage = "Description must be 15 to 2000 characters long!";
     } else if(productData.categoryId === "") {
       errMessage = "Select a category!";
     } else if(image === "") {

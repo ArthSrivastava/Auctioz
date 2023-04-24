@@ -25,6 +25,7 @@ public class BiddingServiceImpl implements BiddingService {
         ProductDto productById = productService.getProductById(productId, sellerId);
         Bidding bidding = modelMapper.map(biddingDto, Bidding.class);
         bidding.setProductId(productId);
+        bidding.setCurrentBidPrice(biddingDto.getStartBidPrice());
         Bidding savedBid = biddingRepo.save(bidding);
 
         productById.setBiddingId(savedBid.getId());

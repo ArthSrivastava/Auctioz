@@ -121,15 +121,17 @@ const ProductDetails = () => {
           </ul>
         </CardBody>
         <CardFooter className="mt-12 p-0">
-          <Link to={`/bids/${product.id}`} element={<BidNowPage />}>
+          
+          <Link to={`/bids/${product.id}`} element={<BidNowPage />} style={product.isSoldOut ? {pointerEvents: "none"} : null}>
             <Button
               variant="outlined"
               size="sm"
               className="hidden lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
               ripple={true}
               fullWidth={true}
+              disabled={product.isSoldOut}
             >
-              Bid Now
+              {product.isSoldOut ? "Sold Out" : "Bid Now"}
             </Button>
           </Link>
         </CardFooter>

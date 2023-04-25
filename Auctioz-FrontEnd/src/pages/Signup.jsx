@@ -6,7 +6,12 @@ import { createAddress } from "../services/AddressService";
 import { toast } from "react-toastify";
 import otherParticleConfig from "../components/config/other-particle-config";
 import ParticleBackground from "../components/ParticleBackground";
-import { regexValidation, serverSideErrors, validateEmail } from "../services/ValidationMethods";
+import {
+  regexValidation,
+  serverSideErrors,
+  validateEmail,
+} from "../services/ValidationMethods";
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
   //store the signup form data
   const [data, setData] = useState({
@@ -21,6 +26,8 @@ const Signup = () => {
     state: "",
     pincode: "",
   });
+
+  const navigate = useNavigate();
 
   //handle fields like email, name, password
   const handleFormChange = (event) => {
@@ -37,8 +44,6 @@ const Signup = () => {
       [event.target.name]: event.target.value,
     });
   };
-
- 
 
   //validate user data fields
   const validateDataObj = () => {
@@ -85,11 +90,27 @@ const Signup = () => {
       .then((responseData) => {
         updateAddress(responseData);
         toast.success("User registered successfully!");
+        resetForm();
+        navigate("/");
       })
       .catch((error) => serverSideErrors(error));
   };
 
-  
+  const resetForm = () => {
+    setData({
+      name: "",
+      email: "",
+      password: "",
+    });
+
+    setAddressData({
+      line1: "",
+      line2: "",
+      city: "",
+      state: "",
+      pincode: "",
+    });
+  };
 
   const updateAddress = (responseData) => {
     createAddress(addressData, responseData.id)
@@ -116,6 +137,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleFormChange}
               name="name"
+              value={data.name}
             />
             <Input
               size="lg"
@@ -124,6 +146,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleFormChange}
               name="email"
+              value={data.email}
             />
             <Input
               size="lg"
@@ -133,6 +156,7 @@ const Signup = () => {
               type="password"
               onChange={handleFormChange}
               name="password"
+              value={data.password}
             />
             <Input
               size="lg"
@@ -141,6 +165,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleAddressFieldFormChange}
               name="line1"
+              value={addressData.line1}
             />
             <Input
               size="lg"
@@ -149,6 +174,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleAddressFieldFormChange}
               name="line2"
+              value={addressData.line2}
             />
             <Input
               size="lg"
@@ -157,6 +183,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleAddressFieldFormChange}
               name="city"
+              value={addressData.city}
             />
             <Input
               size="lg"
@@ -165,6 +192,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleAddressFieldFormChange}
               name="state"
+              value={addressData.state}
             />
             <Input
               size="lg"
@@ -173,6 +201,7 @@ const Signup = () => {
               className="text-lg"
               onChange={handleAddressFieldFormChange}
               name="pincode"
+              value={addressData.pincode}
             />
           </div>
           <Button

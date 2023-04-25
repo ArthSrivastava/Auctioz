@@ -16,6 +16,7 @@ import { createSellerBidding } from "../services/SellerBiddingService";
 import otherParticleConfig from "../components/config/other-particle-config";
 import { UserContext } from "../contexts/UserContext";
 import { regexValidation, serverSideErrors } from "../services/ValidationMethods";
+import { useNavigate } from "react-router-dom";
 
 const ListProduct = () => {
   const [productData, setProductData] = useState({
@@ -30,6 +31,7 @@ const ListProduct = () => {
   const [categories, setCategories] = useState([]);
   const { currentUserData } = useContext(UserContext);
   const [image, setImage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     populateCategory();
@@ -97,6 +99,19 @@ const ListProduct = () => {
     return errMessage === "";
   };
 
+  const resetForm = () => {
+    setProductData({
+      name: "",
+      description: "",
+      categoryId: "",
+    });
+
+    setBiddingData({
+      startBidPrice: "",
+      deadline: ""
+    });
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (!validateProductDataObj() || !validateBiddingDataObj()) {
@@ -114,6 +129,8 @@ const ListProduct = () => {
             toast.success("Product listing successful!");
           })
           .catch((error) => serverSideErrors(error));
+          resetForm();
+          navigate("/");
       })
       .catch((error) => serverSideErrors(error));
   };

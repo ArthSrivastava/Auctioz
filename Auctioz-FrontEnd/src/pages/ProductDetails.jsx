@@ -73,7 +73,7 @@ const ProductDetails = () => {
               <span className="text-md">Current Price</span>
             </Typography>
             <span className="mt-2 text-4xl">
-              {product.bidInfo.startBidPrice}$
+              {product.bidInfo.currentBidPrice}$
             </span>
             <span className="text-sm">{}</span>{" "}
           </Typography>

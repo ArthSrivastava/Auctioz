@@ -111,8 +111,8 @@ const CustomNavbar = () => {
         <div className="flex items-center justify-between text-blue-gray-900">
           <Link to="/">
             <Typography
-              className="mr-4 cursor-pointer py-1.5 font-medium text-limeShade"
-              variant="h3"
+              className="mr-4 cursor-pointer py-1.5 font-medium text-limeShade nav--logo"
+              variant="h1"
             >
               Auctioz
             </Typography>

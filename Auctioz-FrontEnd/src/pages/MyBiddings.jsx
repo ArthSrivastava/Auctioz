@@ -54,24 +54,24 @@ const MyBiddings = () => {
 
   const populateDiv = () => {
     return (
-      <Card className="w-[60vw]">
+      <Card className="w-auto">
         <CardBody>
           <div className="grid grid-cols-4 gap-5 ml-10 mb-3">
-            <Typography variant="h2">Product Name</Typography>
-            <Typography variant="h2" className="col-span-2 mx-6">Your Bidding Amount</Typography>
-            <Typography variant="h2">Date</Typography>
+            <Typography variant="h2" className="text-lg md:text-2xl">Product Name</Typography>
+            <Typography variant="h2" className="col-span-2 mx-6 text-lg md:text-2xl">Your Bidding Amount</Typography>
+            <Typography variant="h2" className="text-lg md:text-2xl">Date</Typography>
           </div>
           {myProducts &&
             myProducts.map((fullDetails, index) => {
               return (
                 <div className="grid grid-cols-4 gap-x-16 p-3 ml-10" key={index}>
-                  <Typography variant="h2">
+                  <Typography variant="h2" className="text-lg md:text-2xl">
                     {fullDetails.product.name}
                   </Typography>
-                  <Typography variant="h2" className="font-normal col-span-2 mx-6">
+                  <Typography variant="h2" className="font-normal col-span-2 mx-6 text-lg md:text-2xl">
                     {fullDetails.biddingAmount}$
                   </Typography>
-                  <Typography variant="h2" className="font-normal">
+                  <Typography variant="h2" className="font-normal text-sm md:text-2xl">
                     {formatDate(fullDetails.timestamp)}
                   </Typography>
                 </div>
@@ -84,7 +84,7 @@ const MyBiddings = () => {
   return (
     <Base>
       <ParticleBackground particleOptions={otherParticleConfig} />
-      <div className="flex justify-center items-center w-[100vw] mt-10">
+      <div className="w-auto flex justify-center items-center w-[100vw] mt-10">
         {populateDiv()}
       </div>
     </Base>

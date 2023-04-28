@@ -31,7 +31,7 @@ const CustomNavbar = () => {
   React.useEffect(() => {
     window.addEventListener(
       "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
+      () => window.innerWidth > 993 && setOpenNav(false)
     );
     setLoggedIn(isLoggedIn());
   }, []);
@@ -48,7 +48,7 @@ const CustomNavbar = () => {
         }}
       >
         <MenuHandler>
-          <Typography as="li" variant="h5" className="p-1 font-normal">
+          <Typography as="li" variant="h5" className="p-1 font-normal sm:text-xl text-sm">
             <a className="flex items-center text-limeShade cursor-pointer">
               Shop By Category
             </a>
@@ -78,7 +78,7 @@ const CustomNavbar = () => {
       <Typography
         as="li"
         variant="h5"
-        className="p-1 font-normal text-limeShade"
+        className="p-1 font-normal text-limeShade sm:text-xl text-sm"
       >
         <Link to="/mybiddings" className="flex items-center">
           My Biddings
@@ -87,7 +87,7 @@ const CustomNavbar = () => {
       <Typography
         as="li"
         variant="h5"
-        className="p-1 font-normal text-limeShade"
+        className="p-1 font-normal text-limeShade sm:text-xl text-sm"
       >
         <Link to="/products" className="flex items-center">
           List Product
@@ -111,7 +111,7 @@ const CustomNavbar = () => {
         <div className="flex items-center justify-between text-blue-gray-900">
           <Link to="/">
             <Typography
-              className="mr-4 cursor-pointer py-1.5 font-medium text-limeShade nav--logo"
+              className="mr-4 cursor-pointer py-1.5 font-medium text-limeShade nav--logo text-2xl sm:text-4xl xl:text-5xl"
               variant="h1"
             >
               Auctioz
@@ -132,7 +132,7 @@ const CustomNavbar = () => {
                 <Typography
                   as="li"
                   variant="h5"
-                  className="p-1 font-normal text-limeShade"
+                  className="p-1 font-normal text-limeShade sm:text-xl text-sm"
                 >
                   <Link to="/login">Log In</Link>
                 </Typography>
@@ -146,14 +146,14 @@ const CustomNavbar = () => {
                 <Typography
                   as="li"
                   variant="h5"
-                  className="p-1 font-normal text-limeShade"
+                  className="p-1 font-normal text-limeShade sm:text-xl text-sm"
                 >
                   <Link to="/signup">Sign up</Link>
                 </Typography>
               </>
             ) : (
               <>
-                <Typography as="li" variant="h5" className="p-1 font-normal">
+                <Typography as="li" variant="h5" className="p-1 font-normal  sm:text-xl text-sm">
                   <a className="flex items-center text-limeShade">
                     {user?.email}
                   </a>
@@ -161,7 +161,7 @@ const CustomNavbar = () => {
                 <Typography
                   as="li"
                   variant="h5"
-                  className="p-1 font-normal text-limeShade"
+                  className="p-1 font-normal text-limeShade sm:text-xl text-sm"
                   onClick={logoutUser}
                   style={{ cursor: "pointer" }}
                 >
@@ -208,7 +208,7 @@ const CustomNavbar = () => {
             </IconButton>
           </div>
         </div>
-        <MobileNav open={openNav}>{navList}</MobileNav>
+        <MobileNav open={openNav} className="sm:h-96 h-40">{navList}</MobileNav>
       </Navbar>
     </>
   );

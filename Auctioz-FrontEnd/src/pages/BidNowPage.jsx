@@ -7,7 +7,8 @@ import { createNewBid } from "../services/UserBidService";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { UserContext } from "../contexts/UserContext";
-
+import otherParticleConfig from "../components/config/other-particle-config";
+import ParticleBackground from "../components/ParticleBackground";
 const BidNowPage = () => {
   const [address, setAddress] = useState({});
   const { user } = useContext(UserContext);
@@ -64,7 +65,7 @@ const BidNowPage = () => {
     return (
       <Card
         color="transparent"
-        className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#e2e2e2]"
+        className="w-auto border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#e2e2e2]"
       >
         <Typography variant="h1">Bid Now</Typography>
         <Typography className="mt-2 font-normal" variant="h4">
@@ -144,7 +145,8 @@ const BidNowPage = () => {
       {loading ? (
         <h1 className="text-white">Loading...</h1>
       ) : (
-        <div className="bg-limeShade h-[91vh] flex justify-center items-center">
+        <div className="h-screen flex justify-center items-center">
+          <ParticleBackground particleOptions={otherParticleConfig} />
           {bidNow()}
         </div>
       )}

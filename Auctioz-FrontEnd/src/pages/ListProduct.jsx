@@ -139,10 +139,10 @@ const ListProduct = () => {
     return (
       <Card
         color="transparent"
-        className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#ffffff]"
+        className="w-auto border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#ffffff]"
       >
-        <Typography variant="h1">List product</Typography>
-        <Typography className="mt-2 font-normal" variant="h4">
+        <Typography variant="h1" className="sm:text-3xl md:text-4xl text-xl">List product</Typography>
+        <Typography className="mt-2 font-normal sm:text-2xl md:text-3xl text-lg" variant="h4">
           Enter product details
         </Typography>
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
@@ -220,7 +220,7 @@ const ListProduct = () => {
 
   return (
     <Base>
-      <div className=" h-[91vh] flex justify-center items-center">
+      <div className=" h-screen flex justify-center items-center">
         <ParticleBackground particleOptions={otherParticleConfig}/>
         {listingForm()}
       </div>

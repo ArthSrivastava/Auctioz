@@ -9,14 +9,14 @@ import { BASE_URL } from "../services/helper";
 
 const ProductCard = ({ product }) => {
   return (
-    <Card className="w-96 text-white border-2 border-limeShade my-2 bg-transparent rounded-lg">
+    <Card className="w-auto sm:w-auto lg:w-auto md:w-auto text-white border-2 border-limeShade my-2 bg-transparent rounded-lg">
       <CardBody className="hover:bg-[#080808] ">
         <img
           src={BASE_URL + "/images/" + product.imageName}
           className="mb-2 h-[20vh] w-full object-contain"
         />
         <Typography variant="h3" className="mb-2">
-          {product.name.length > 16 ? (product.name.substring(0, 16) + "...") : product.name}
+          {product.name.length > 16 ? (product.name.substring(0, 12) + "...") : product.name}
         </Typography>
         <Typography variant="h6" className="">
           {product.description.substring(0, 30)}....
@@ -53,3 +53,4 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+1070

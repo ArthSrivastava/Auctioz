@@ -69,7 +69,7 @@ const PlaceOrder = () => {
           <Button
             variant="outlined"
             size="lg"
-            className="hidden lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
+            className="lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
             ripple={true}
             onClick={payNow}
           >

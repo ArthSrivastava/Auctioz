@@ -34,7 +34,6 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize(value = "@userSecurity.hasUserId(authentication, #userId)")
     public ResponseEntity<UserDto> getUserById(@PathVariable String userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }

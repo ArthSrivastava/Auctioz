@@ -51,7 +51,7 @@ const Home = () => {
   return (
     <Base>
     <ParticleBackground particleOptions={homeParticleConfig}/>
-      <div className="p-10 grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 sm:grid-rows- gap-4 ">
+      <div className="p-10 grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-3 sm:grid-cols-2 gap-4 ">
         {loading ? (
           <h1 className="text-white">Loading...</h1>
         ) : (

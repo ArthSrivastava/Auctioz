@@ -51,7 +51,7 @@ const ProductDetails = () => {
       <Card
         color="transparent"
         variant="gradient"
-        className="w-full max-w-[21rem] bg-[#e2e2e2] text-[#080808] p-8 mt-10"
+        className="w-auto bg-[#e2e2e2] text-[#080808] p-8 mt-10"
       >
         <CardHeader
           floated={false}
@@ -69,10 +69,10 @@ const ProductDetails = () => {
             variant="h1"
             className="mt-6 flex justify-center gap-1 text-7xl font-normal text-[#080808]"
           >
-            <Typography variant="h4">
+            <Typography variant="h4" className="md:text-sm lg:text-3xl">
               <span className="text-md">Current Price</span>
             </Typography>
-            <span className="mt-2 text-4xl">
+            <span className="mt-2 lg:text-4xl md:text-sm">
               {product.bidInfo.currentBidPrice}$
             </span>
             <span className="text-sm">{}</span>{" "}
@@ -126,7 +126,7 @@ const ProductDetails = () => {
             <Button
               variant="outlined"
               size="sm"
-              className="hidden lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
+              className="lg:inline-block border-limeShade text-limeShade hover:bg-limeShade hover:text-white"
               ripple={true}
               fullWidth={true}
               disabled={product.isSoldOut}
@@ -140,16 +140,16 @@ const ProductDetails = () => {
   };
   const detailCard = () => {
     return (
-      <div className="h-full min-h-[91vh] w-[70vw] bg-white flex flex-col gap-4 mt-3">
-        <div className="grid grid-cols-3 gap-8 p-4">
-          <div className="col-span-2">
+      <div className="h-auto min-h-[91vh] w-5/6 bg-white flex flex-col gap-4 mt-3">
+        <div className="md:grid md:grid-cols-3 md:gap-8 p-4">
+          <div className="md:col-span-2">
             <img
               src={BASE_URL + "/images/" + product.imageName}
               className="h-[60vh] w-full object-contain"
             />
           </div>
 
-          <div>{buyNowCard()}</div>
+          <div className="w-auto">{buyNowCard()}</div>
         </div>
         <div>
           <Typography variant="h3">

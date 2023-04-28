@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import Base from "../components/Base";
-import { Card, Input, Typography, Button } from "@material-tailwind/react";
+import {
+  Card,
+  Input,
+  Typography,
+  Button,
+  CardHeader,
+} from "@material-tailwind/react";
 import { signup } from "../services/UserService";
 import { createAddress } from "../services/AddressService";
 import { toast } from "react-toastify";
@@ -122,10 +128,15 @@ const Signup = () => {
     return (
       <Card
         color="transparent"
-        className="w-[30vw] border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#ffffff]"
+        className="w-auto border-2 border-limeShade p-4 text-[#080808] rounded-2xl drop-shadow-lg flex items-center bg-[#ffffff]"
       >
-        <Typography variant="h1">Sign Up</Typography>
-        <Typography className="mt-2 font-normal" variant="h4">
+        <Typography variant="h1" className="sm:text-3xl md:text-5xl text-xl">
+          Sign Up
+        </Typography>
+        <Typography
+          className="mt-2 font-normal sm:text-2xl md:text-4xl text-sm"
+          variant="h4"
+        >
           Enter your details
         </Typography>
         <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
@@ -134,7 +145,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="Name"
-              className="text-lg"
+              className="sm:text-lg text-sm"
               onChange={handleFormChange}
               name="name"
               value={data.name}
@@ -143,7 +154,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="Email"
-              className="text-lg"
+              className="text-lg text-sm"
               onChange={handleFormChange}
               name="email"
               value={data.email}
@@ -152,7 +163,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="Password"
-              className="text-lg"
+              className="text-lg text-sm"
               type="password"
               onChange={handleFormChange}
               name="password"
@@ -162,7 +173,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="Address Line 1"
-              className="text-lg"
+              className="text-lg text-sm"
               onChange={handleAddressFieldFormChange}
               name="line1"
               value={addressData.line1}
@@ -171,7 +182,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="Address Line 2"
-              className="text-lg"
+              className="text-lg text-sm"
               onChange={handleAddressFieldFormChange}
               name="line2"
               value={addressData.line2}
@@ -180,7 +191,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="City"
-              className="text-lg"
+              className="text-lg text-sm"
               onChange={handleAddressFieldFormChange}
               name="city"
               value={addressData.city}
@@ -189,7 +200,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="State"
-              className="text-lg"
+              className="text-lg text-sm"
               onChange={handleAddressFieldFormChange}
               name="state"
               value={addressData.state}
@@ -198,7 +209,7 @@ const Signup = () => {
               size="lg"
               color="teal"
               label="Pincode"
-              className="text-lg"
+              className="text-lg text-sm"
               onChange={handleAddressFieldFormChange}
               name="pincode"
               value={addressData.pincode}
@@ -220,7 +231,7 @@ const Signup = () => {
 
   return (
     <Base>
-      <div className="h-[91vh] flex justify-center items-center">
+      <div className="h-screen flex justify-center items-center">
         <ParticleBackground particleOptions={otherParticleConfig} />
         {signupForm()}
       </div>
